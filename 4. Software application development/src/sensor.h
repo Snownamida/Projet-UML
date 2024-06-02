@@ -12,34 +12,39 @@ using namespace std;
 
 class SensorContainer;
 
+// There are 4 measurements (one of each of the 4 types: O3, SO2, NO2, PM10) per
+// sensor
 class Sensor {
 public:
   Sensor();
   Sensor(string sensorID, float latitude, float longitude);
 
-  double distance(Sensor *s2);
-  void addMeasurment(Measurment *measurment);
-  void displayMeasurments();
+  double distance(Sensor &s2);
+  void addMeasurment(Measurment &measurment);
+  void displayMeasurments() const;
 
   string getSensorID() const { return sensorID; }
   float getLatitude() const { return latitude; }
   float getLongitude() const { return longitude; }
   bool getFalty() const { return falty; }
-  vector<Measurment *> getMeasurments() const { return measurments; }
 
   void setSensorID(string sensorID) { this->sensorID = sensorID; }
   void setLatitude(float latitude) { this->latitude = latitude; }
   void setLongitude(float longitude) { this->longitude = longitude; }
   void setFalty(bool falty) { this->falty = falty; }
 
-  bool IsFalty(SensorContainer sensorContainer);
+  bool isFalty(SensorContainer sensorContainer);
 
 private:
   string sensorID;
   float latitude;
   float longitude;
-  vector<Measurment *> measurments;
   bool falty;
+
+  vector<Measurment> measurments_O3;
+  vector<Measurment> measurments_SO2;
+  vector<Measurment> measurments_NO2;
+  vector<Measurment> measurments_PM10;
 };
 
 struct Quality {
@@ -52,18 +57,20 @@ struct Quality {
 
 class SensorContainer {
 private:
-  vector<Sensor *> sensors;
+  vector<Sensor> sensors;
 
 public:
   void init();
 
-  void addSensor(Sensor *sensor);
+  void addSensor(Sensor &sensor);
 
   friend ostream &operator<<(ostream &os, const SensorContainer &container);
 
-  Sensor *getSensor(string sensorID);
+  Sensor &findSensorById(string sensorID);
 
-  vector<Sensor *> getSensors() const { return sensors; }
+  vector<Sensor> getSensors() const { return sensors; }
+
+  Sensor &operator[](int i) { return sensors[i]; }
 };
 
 #endif

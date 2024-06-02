@@ -1,6 +1,19 @@
 #include "sensor.h"
+#include <vector>
 
 string types[] = {"03", "SO2", "NO2", "PM10"};
+
+static double average(vector<Measurment> measurments) {
+  if (measurments.size() == 0) {
+    return 0;
+  }
+
+  double sum = 0;
+  for (int i = 0; i < measurments.size(); i++) {
+    sum += measurments[i].getValue();
+  }
+  return sum / measurments.size();
+}
 
 Sensor::Sensor() {
   sensorID = "";
@@ -8,89 +21,117 @@ Sensor::Sensor() {
   longitude = 0;
 }
 
-double Sensor::distance(Sensor *capt2) {
-  return sqrt(pow(this->getLatitude() - capt2->getLatitude(), 2) +
-              pow(this->getLongitude() - capt2->getLongitude(), 2));
+double Sensor::distance(Sensor &capt2) {
+  return sqrt(pow(latitude - capt2.latitude, 2) +
+              pow(longitude - capt2.longitude, 2));
 }
 
 Sensor::Sensor(string SensorID, float Latitude, float Longitude) {
   this->sensorID = SensorID;
   this->latitude = Latitude;
   this->longitude = Longitude;
-  this->falty = false;
 }
 
-void Sensor::addMeasurment(Measurment *measurment) {
-  measurments.push_back(measurment);
-}
-
-void Sensor::displayMeasurments() {
-  for (int i = 0; i < measurments.size(); i++) {
-    cout << "Measurment ID: " << measurments[i]->getSensorID() << endl;
-    cout << "Date: " << measurments[i]->getDate().annee << endl;
-    cout << "Sensor ID: " << measurments[i]->getSensorID() << endl;
-    cout << "Attribute: " << measurments[i]->getAttributeID() << endl;
-    cout << "Value: " << measurments[i]->getValue() << endl;
+void Sensor::addMeasurment(Measurment &measurment) {
+  switch (measurment.getMeasureType()) {
+  case O3:
+    measurments_O3.push_back(measurment);
+    break;
+  case SO2:
+    measurments_SO2.push_back(measurment);
+    break;
+  case NO2:
+    measurments_NO2.push_back(measurment);
+    break;
+  case PM10:
+    measurments_PM10.push_back(measurment);
+    break;
   }
 }
 
-bool Sensor::IsFalty(SensorContainer sensorContainer) {
+void Sensor::displayMeasurments() const {
+  cout << "O3: " << endl;
+  for (int i = 0; i < measurments_O3.size(); i++) {
+    cout << measurments_O3[i] << endl;
+  }
+
+  cout << "SO2: " << endl;
+  for (int i = 0; i < measurments_SO2.size(); i++) {
+    cout << measurments_SO2[i] << endl;
+  }
+
+  cout << "NO2: " << endl;
+  for (int i = 0; i < measurments_NO2.size(); i++) {
+    cout << measurments_NO2[i] << endl;
+  }
+
+  cout << "PM10: " << endl;
+  for (int i = 0; i < measurments_PM10.size(); i++) {
+    cout << measurments_PM10[i] << endl;
+  }
+}
+
+bool Sensor::isFalty(SensorContainer sensorContainer) {
 
   cout << "Sensor ID: %s" << this->getSensorID() << endl;
+  const int RAYON = 150;
 
-  for (const auto &t : types) {
-    vector<double> moyenne;
+  double average_O3 = average(measurments_O3);
+  double average_SO2 = average(measurments_SO2);
+  double average_NO2 = average(measurments_NO2);
+  double average_PM10 = average(measurments_PM10);
 
-    for (const auto &m : this->getMeasurments()) {
+  vector<Measurment> measurments_neighbour_O3;
+  vector<Measurment> measurments_neighbour_SO2;
+  vector<Measurment> measurments_neighbour_NO2;
+  vector<Measurment> measurments_neighbour_PM10;
 
-      if (m->getAttributeID() == t) {
-        moyenne.push_back(m->getValue());
-      }
-
-      double moyenneMeasurment =
-          moyenne.size() > 0
-              ? accumulate(moyenne.begin(), moyenne.end(), 0) / moyenne.size()
-              : 0;
-      int rayon = 150;
-
-      int nbCapt = 0;
-      int sum = 0;
-
-      for (const auto &s : sensorContainer.getSensors()) {
-        if (this->distance(s) < rayon &&
-            s->getSensorID() != this->getSensorID()) {
-          for (const auto &m : s->getMeasurments()) {
-            if (m->getAttributeID() == t) {
-              sum += m->getValue();
-              nbCapt++;
-            }
-          }
-        }
-      }
-
-      double moyenneVoisinage = nbCapt > 0 ? sum / nbCapt : 0;
-      ofstream file("../dataset/falty.csv", ios::app);
-
-      if (moyenneMeasurment < 0.5 * moyenneVoisinage ||
-          moyenneMeasurment > 2 * moyenneVoisinage) {
-        this->setFalty(true);
-
-        file << this->getSensorID() << ",true\n";
-        return true;
-      } else {
-        file << this->getSensorID() << ",false\n";
-        return false;
-      }
+  for (int i = 0; i < sensorContainer.getSensors().size(); i++) {
+    if (distance(sensorContainer[i]) < RAYON &&
+        sensorID != sensorContainer.getSensors()[i].sensorID) {
+      measurments_neighbour_O3.insert(measurments_neighbour_O3.end(),
+                                      sensorContainer[i].measurments_O3.begin(),
+                                      sensorContainer[i].measurments_O3.end());
+      measurments_neighbour_SO2.insert(
+          measurments_neighbour_SO2.end(),
+          sensorContainer[i].measurments_SO2.begin(),
+          sensorContainer[i].measurments_SO2.end());
+      measurments_neighbour_NO2.insert(
+          measurments_neighbour_NO2.end(),
+          sensorContainer[i].measurments_NO2.begin(),
+          sensorContainer[i].measurments_NO2.end());
+      measurments_neighbour_PM10.insert(
+          measurments_neighbour_PM10.end(),
+          sensorContainer[i].measurments_PM10.begin(),
+          sensorContainer[i].measurments_PM10.end());
     }
+  }
+
+  double average_neighbour_O3 = average(measurments_neighbour_O3);
+  double average_neighbour_SO2 = average(measurments_neighbour_SO2);
+  double average_neighbour_NO2 = average(measurments_neighbour_NO2);
+  double average_neighbour_PM10 = average(measurments_neighbour_PM10);
+
+  if (average_O3 < 0.5 * average_neighbour_O3 ||
+      average_O3 > 2 * average_neighbour_O3 ||
+      average_SO2 < 0.5 * average_neighbour_SO2 ||
+      average_SO2 > 2 * average_neighbour_SO2 ||
+      average_NO2 < 0.5 * average_neighbour_NO2 ||
+      average_NO2 > 2 * average_neighbour_NO2 ||
+      average_PM10 < 0.5 * average_neighbour_PM10 ||
+      average_PM10 > 2 * average_neighbour_PM10) {
+
+    return true;
   }
 
   return false;
 }
 
-void SensorContainer::addSensor(Sensor *sensor) { sensors.push_back(sensor); }
+void SensorContainer::addSensor(Sensor &sensor) { sensors.push_back(sensor); }
 
 ostream &operator<<(ostream &os, const SensorContainer &container) {
   for (int i = 0; i < container.sensors.size(); i++) {
+<<<<<<< HEAD
     cout << "\033[0;31m" /*red*/ << "\r\n[" << i << "]\033[0m" << endl;
     os << "Sensor ID: " << container.sensors[i]->getSensorID() << endl;
     os << "Latitude: " << container.sensors[i]->getLatitude() << endl;
@@ -100,23 +141,33 @@ ostream &operator<<(ostream &os, const SensorContainer &container) {
     // container.sensors[i]->displayMeasurments();
     // cout << "\033[0m \r\n"  << endl;
     cout << endl;
+=======
+    os << "Sensor ID: " << container.sensors[i].getSensorID() << endl;
+    os << "Latitude: " << container.sensors[i].getLatitude() << endl;
+    os << "Longitude: " << container.sensors[i].getLongitude() << endl;
+    os << "Measurments: " << endl;
+    container.sensors[i].displayMeasurments();
+>>>>>>> d8da88760b2454b831bb6dd767f70ecedfbc08ac
   }
   return os;
 }
 
-Sensor *SensorContainer::getSensor(string sensorID) {
+Sensor &SensorContainer::findSensorById(string sensorID) {
   for (int i = 0; i < sensors.size(); i++) {
-    if (sensors[i]->getSensorID() == sensorID) {
+    if (sensors[i].getSensorID() == sensorID) {
       return sensors[i];
     }
   }
-  return NULL;
+  throw "Sensor not found";
 }
 
 void SensorContainer::init() {
+<<<<<<< HEAD
   ofstream file("../dataset/falty.csv");
   file << "SensorID,Falty\n";
 
+=======
+>>>>>>> d8da88760b2454b831bb6dd767f70ecedfbc08ac
   // Initialisation des capteurs
   ifstream sensorFile("../dataset/sensors.csv");
 
@@ -146,7 +197,7 @@ void SensorContainer::init() {
     longitude = stof(cell);
 
     Sensor *newSensor = new Sensor(id, latitude, longitude);
-    this->addSensor(newSensor);
+    this->addSensor(*newSensor);
   }
 
   sensorFile.close();
@@ -165,7 +216,7 @@ void SensorContainer::init() {
 
     string date;
     string idSensor;
-    string mollecule;
+    MeasureType measureTypem;
     double data;
 
     // Lire chaque cellule séparée par des points-virgules
@@ -176,15 +227,23 @@ void SensorContainer::init() {
     idSensor = cell;
 
     getline(lineStream, cell, ';');
-    mollecule = cell;
+    if (cell == "O3") {
+      measureTypem = O3;
+    } else if (cell == "SO2") {
+      measureTypem = SO2;
+    } else if (cell == "NO2") {
+      measureTypem = NO2;
+    } else if (cell == "PM10") {
+      measureTypem = PM10;
+    }
 
     getline(lineStream, cell, ';');
     data = stod(cell);
 
-    Measurment *measurement = new Measurment(date, idSensor, mollecule, data);
-    Sensor *sensor = this->getSensor(idSensor);
+    Measurment *measurement =
+        new Measurment(date, idSensor, measureTypem, data);
 
-    sensor->addMeasurment(measurement);
+    findSensorById(idSensor).addMeasurment(*measurement);
   }
 
   measurmentFile.close();
