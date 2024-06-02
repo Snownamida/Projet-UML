@@ -10,10 +10,9 @@
 
 using namespace std;
 
-class Measurment;
+class SensorContainer;
 
 class Sensor {
-
 public:
   Sensor();
   Sensor(string sensorID, float latitude, float longitude);
@@ -33,7 +32,7 @@ public:
   void setLongitude(float longitude) { this->longitude = longitude; }
   void setFalty(bool falty) { this->falty = falty; }
 
-  bool IsFalty(Container container);
+  bool IsFalty(SensorContainer sensorContainer);
 
 private:
   string sensorID;
@@ -41,6 +40,32 @@ private:
   float longitude;
   vector<Measurment *> measurments;
   bool falty;
+};
+
+struct Quality {
+  int o3;
+  int so2;
+  int no2;
+  int pm10;
+  int distance;
+};
+
+class SensorContainer {
+private:
+  vector<Sensor *> sensors;
+
+public:
+  void init();
+
+  void addSensor(Sensor *sensor);
+
+  friend ostream &operator<<(ostream &os, const SensorContainer &container);
+
+  Sensor *getSensor(string sensorID);
+
+  vector<Sensor *> getSensors() const { return sensors; }
+
+  void checkFaltySensors();
 };
 
 #endif

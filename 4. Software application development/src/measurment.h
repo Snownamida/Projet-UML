@@ -1,16 +1,5 @@
-/*************************************************************************
-                         Log -  description
-                             -------------------
-    début                : $DATE$
-    copyright            : (C) $2024$ par $BP3313$
-    e-mail               : $EMAIL$
-*************************************************************************/
-
-//---------- Interface de la classe  Log> (fichier Log.h) ----------------
 #if !defined(Measurment_H)
 #define Measurment_H
-//--------------------------------------------------- Interfaces utilisées
-#include "container.h"
 #include <iostream>
 #include <sstream>
 #include <stdlib.h>
@@ -30,8 +19,6 @@ struct stamp {
   int mois;
   int annee;
 };
-
-class Container;
 
 class Measurment {
 

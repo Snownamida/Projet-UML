@@ -1,16 +1,10 @@
-#include "container.h"
-#include <chrono>
-#include <fstream>
-#include <iostream>
-#include <string>
-#include <thread>
-
+#include "sensor.h"
 
 using namespace std;
 
 int main() {
 
-  Container container;
+  SensorContainer sensorContainer;
 
   /*
 
@@ -28,9 +22,9 @@ int main() {
 
   */
 
-  container.init();
+  sensorContainer.init();
 
-  container.checkFaltySensors();
+  sensorContainer.checkFaltySensors();
 
   return 0;
 }
