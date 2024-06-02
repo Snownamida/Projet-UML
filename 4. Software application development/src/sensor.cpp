@@ -1,5 +1,6 @@
 #include "sensor.h"
 #include <iostream>
+#include <map>
 #include <vector>
 
 string types[] = {"03", "SO2", "NO2", "PM10"};
@@ -22,12 +23,26 @@ Sensor::Sensor() {
   longitude = 0;
 }
 
-double Sensor::distance(Sensor &capt2) {
+static map<pair<string, string>, double> distanceCache;
+
+double Sensor::distance(Sensor &sensor2) {
+  auto key = make_pair(sensorID, sensor2.sensorID);
+  auto reverseKey = make_pair(sensor2.sensorID, sensorID);
+
+  // 检查缓存中是否已经存在该距离
+  if (distanceCache.find(key) != distanceCache.end()) {
+    return distanceCache[key];
+  }
+  if (distanceCache.find(reverseKey) != distanceCache.end()) {
+    return distanceCache[reverseKey];
+  }
+
+  // Haversine formula
   const double R = 6371e3;             // metres
   double phi1 = latitude * M_PI / 180; // φ, λ in radians
-  double phi2 = capt2.latitude * M_PI / 180;
-  double deltaPhi = (capt2.latitude - latitude) * M_PI / 180;
-  double deltaLambda = (capt2.longitude - longitude) * M_PI / 180;
+  double phi2 = sensor2.latitude * M_PI / 180;
+  double deltaPhi = (sensor2.latitude - latitude) * M_PI / 180;
+  double deltaLambda = (sensor2.longitude - longitude) * M_PI / 180;
 
   double a = sin(deltaPhi / 2) * sin(deltaPhi / 2) + cos(phi1) * cos(phi2) *
                                                          sin(deltaLambda / 2) *
@@ -84,7 +99,7 @@ void Sensor::displayMeasurments() const {
 
 bool Sensor::isFalty(SensorContainer sensorContainer) {
 
-  const int RAYON = 150;
+  const int RAYON = 100000;
   const float SEUIL_MIN = 0.8;
   const float SEUIL_MAX = 1.2;
 
