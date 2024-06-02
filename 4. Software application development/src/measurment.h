@@ -7,6 +7,9 @@
 
 using namespace std;
 
+// MeasureType enum
+enum MeasureType { O3, SO2, NO2, PM10 };
+
 struct heure {
   int h;
   int m;
@@ -23,18 +26,19 @@ struct stamp {
 class Measurment {
 
 public:
-  Measurment(string date, string sensorID, string attributeID, double value);
+  Measurment(string date, string sensorID, MeasureType measureType,
+             double value);
   friend ostream &operator<<(ostream &os, const Measurment &measurment);
 
   // all getters
   string getSensorID() const;
-  string getAttributeID() const;
+  MeasureType getMeasureType() const;
   double getValue() const;
   stamp getDate() const;
 
 protected:
   string sensorID;
-  string attributeID;
+  MeasureType measureType;
   double value;
   stamp date;
 };
