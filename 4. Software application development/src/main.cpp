@@ -164,7 +164,17 @@ int main() {
           cout << "Cpateurs defaillants" << endl;
           cout << "[0] Retour au Menu principal" << endl;
 
-          /*affichage des capteurs defaillants*/
+          for (int i = 0; i < sensorContainer.size(); i++)
+          {
+            if (sensorContainer.sensors[i]->getFalty == true)
+            {
+              os << "Sensor ID: " << sensorContainer.sensors[i]->getSensorID() << endl;
+              os << "Latitude: " << sensorContainer.sensors[i]->getLatitude() << endl;
+              os << "Longitude: " << sensorContainer.sensors[i]->getLongitude() << endl;
+            }
+          }
+
+          cout << endl;
 
           cout << "[X] Voir les informations du capteur n°X" << endl;
           cout << "Entrer la selection :" << endl;
