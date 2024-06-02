@@ -111,6 +111,12 @@ bool Sensor::isFalty(SensorContainer sensorContainer) {
   double average_neighbour_NO2 = average(measurments_neighbour_NO2);
   double average_neighbour_PM10 = average(measurments_neighbour_PM10);
 
+  cout << "Sensor ID: " << sensorID << endl;
+  cout << "O3: " << average_O3 << " " << average_neighbour_O3 << endl;
+  cout << "SO2: " << average_SO2 << " " << average_neighbour_SO2 << endl;
+  cout << "NO2: " << average_NO2 << " " << average_neighbour_NO2 << endl;
+  cout << "PM10: " << average_PM10 << " " << average_neighbour_PM10 << endl;
+
   if (average_O3 < 0.5 * average_neighbour_O3 ||
       average_O3 > 2 * average_neighbour_O3 ||
       average_SO2 < 0.5 * average_neighbour_SO2 ||
@@ -157,8 +163,7 @@ void SensorContainer::init() {
   ifstream sensorFile("dataset/sensors.csv");
 
   if (!sensorFile.is_open()) {
-    cerr << "Erreur: impossible d'ouvrir le fichier." << endl;
-    return;
+    throw runtime_error("Erreur: impossible de lire le fichier sensors.csv");
   }
 
   string line;
@@ -188,11 +193,11 @@ void SensorContainer::init() {
   sensorFile.close();
 
   // Initialisation des mesures des capteurs
-  ifstream measurmentFile("../dataset/measurements.csv");
+  ifstream measurmentFile("dataset/measurements.csv");
 
   if (!measurmentFile.is_open()) {
-    cerr << "Erreur: impossible d'ouvrir le fichier." << endl;
-    return;
+    throw runtime_error(
+        "Erreur: impossible de lire le fichier measurements.csv");
   }
 
   while (getline(measurmentFile, line)) { // Lire le fichier ligne par ligne
