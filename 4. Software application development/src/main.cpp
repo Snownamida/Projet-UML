@@ -53,25 +53,20 @@ int main() {
         double counterNO2 = 0.0;
 
         for (int i = 0; i < sensorContainer.getSensors().size(); i++) {
-          for (int j = 0; j < sensorContainer[i].getMeasurments_O3().size();
-               j++) {
-            indiceO3 += sensorContainer[i].getMeasurments_O3()[j].getValue();
+          for (int j = 0; j < sensorContainer[i][O3].size(); j++) {
+            indiceO3 += sensorContainer[i][O3][j].getValue();
             counterO3++;
           }
-          for (int j = 0; j < sensorContainer[i].getMeasurments_SO2().size();
-               j++) {
-            indiceSO2 += sensorContainer[i].getMeasurments_SO2()[j].getValue();
+          for (int j = 0; j < sensorContainer[i][SO2].size(); j++) {
+            indiceSO2 += sensorContainer[i][SO2][j].getValue();
             counterSO2++;
           }
-          for (int j = 0; j < sensorContainer[i].getMeasurments_PM10().size();
-               j++) {
-            indicePM10 +=
-                sensorContainer[i].getMeasurments_PM10()[j].getValue();
+          for (int j = 0; j < sensorContainer[i][PM10].size(); j++) {
+            indicePM10 += sensorContainer[i][PM10][j].getValue();
             counterPM10++;
           }
-          for (int j = 0; j < sensorContainer[i].getMeasurments_NO2().size();
-               j++) {
-            indiceNO2 += sensorContainer[i].getMeasurments_NO2()[j].getValue();
+          for (int j = 0; j < sensorContainer[i][NO2].size(); j++) {
+            indiceNO2 += sensorContainer[i][NO2][j].getValue();
             counterNO2++;
           }
         }

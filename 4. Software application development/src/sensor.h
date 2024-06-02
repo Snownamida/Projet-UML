@@ -37,10 +37,18 @@ public:
   void setLongitude(float longitude) { this->longitude = longitude; }
   void setFalty(bool falty) { this->falty = falty; }
 
-  vector<Measurment> &getMeasurments_O3() { return measurments_O3; }
-  vector<Measurment> &getMeasurments_SO2() { return measurments_SO2; }
-  vector<Measurment> &getMeasurments_NO2() { return measurments_NO2; }
-  vector<Measurment> &getMeasurments_PM10() { return measurments_PM10; }
+  vector<Measurment> &operator[](MeasureType measureType) {
+    switch (measureType) {
+    case O3:
+      return measurments_O3;
+    case SO2:
+      return measurments_SO2;
+    case NO2:
+      return measurments_NO2;
+    case PM10:
+      return measurments_PM10;
+    }
+  }
 
   bool isFalty(SensorContainer sensorContainer);
 
