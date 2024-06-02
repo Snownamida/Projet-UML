@@ -23,8 +23,18 @@ Sensor::Sensor() {
 }
 
 double Sensor::distance(Sensor &capt2) {
-  return sqrt(pow(latitude - capt2.latitude, 2) +
-              pow(longitude - capt2.longitude, 2));
+  const double R = 6371e3;             // metres
+  double phi1 = latitude * M_PI / 180; // φ, λ in radians
+  double phi2 = capt2.latitude * M_PI / 180;
+  double deltaPhi = (capt2.latitude - latitude) * M_PI / 180;
+  double deltaLambda = (capt2.longitude - longitude) * M_PI / 180;
+
+  double a = sin(deltaPhi / 2) * sin(deltaPhi / 2) + cos(phi1) * cos(phi2) *
+                                                         sin(deltaLambda / 2) *
+                                                         sin(deltaLambda / 2);
+  double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+  return R * c; // in metres
 }
 
 Sensor::Sensor(string SensorID, float Latitude, float Longitude) {
