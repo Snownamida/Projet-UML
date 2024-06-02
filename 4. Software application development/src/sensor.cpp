@@ -140,12 +140,6 @@ bool Sensor::isFalty(SensorContainer sensorContainer) {
   double average_neighbour_NO2 = sum_neighbour_NO2 / count_neighbour_NO2;
   double average_neighbour_PM10 = sum_neighbour_PM10 / count_neighbour_PM10;
 
-  // cout << "Sensor ID: " << sensorID << endl;
-  // cout << "O3: " << average_O3 << " " << average_neighbour_O3 << endl;
-  // cout << "SO2: " << average_SO2 << " " << average_neighbour_SO2 << endl;
-  // cout << "NO2: " << average_NO2 << " " << average_neighbour_NO2 << endl;
-  // cout << "PM10: " << average_PM10 << " " << average_neighbour_PM10 << endl;
-
   if (average_O3 > average_neighbour_O3 * SEUIL_MAX ||
       average_O3 < average_neighbour_O3 * SEUIL_MIN ||
       average_SO2 > average_neighbour_SO2 * SEUIL_MAX ||
@@ -155,6 +149,10 @@ bool Sensor::isFalty(SensorContainer sensorContainer) {
       average_PM10 > average_neighbour_PM10 * SEUIL_MAX ||
       average_PM10 < average_neighbour_PM10 * SEUIL_MIN) {
     cout << "Sensor ID: " << sensorID << " is falty" << endl;
+    cout << "O3: " << average_O3 << " " << average_neighbour_O3 << endl;
+    cout << "SO2: " << average_SO2 << " " << average_neighbour_SO2 << endl;
+    cout << "NO2: " << average_NO2 << " " << average_neighbour_NO2 << endl;
+    cout << "PM10: " << average_PM10 << " " << average_neighbour_PM10 << endl;
     return true;
   }
 
