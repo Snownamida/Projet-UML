@@ -32,23 +32,18 @@ int main() {
   double counterNO2 = 0.0;
 
   for (int i = 0; i < sensorContainer.getSensors().size(); i++) {
-    cout << "calcul en cours" << endl;
-    for (int j = 0; j < sensorContainer.getSensors()[i].getMeasurmentsO3().size(); j++) {
-      indiceO3 += sensorContainer.getSensors()[i].getMeasurmentsO3()[j].getValue();
-      counterO3++;
-    }
-    for (int j = 0; j < sensorContainer.getSensors()[i].getMeasurmentsSO2().size(); j++) {
-      indiceSO2 += sensorContainer.getSensors()[i].getMeasurmentsSO2()[j].getValue();
-      counterSO2++;
-    }
-    for (int j = 0; j < sensorContainer.getSensors()[i].getMeasurmentsPM10().size(); j++) {
-      indicePM10 += sensorContainer.getSensors()[i].getMeasurmentsPM10()[j].getValue();
-      counterPM10++;
-    }
-    for (int j = 0; j < sensorContainer.getSensors()[i].getMeasurmentsNO2().size(); j++) {
-      indiceNO2 += sensorContainer.getSensors()[i].getMeasurmentsNO2()[j].getValue();
-      counterNO2++;
-    }
+    cout << "calcul n°"<< i << " en cours" << endl;
+    indiceO3 += sensorContainer.getSensors()[i].getMeasurmentsO3()[sensorContainer.getSensors()[i].getMeasurmentsO3().size()].getValue();
+    counterO3++;
+    
+    indiceSO2 += sensorContainer.getSensors()[i].getMeasurmentsSO2()[sensorContainer.getSensors()[i].getMeasurmentsSO2().size()].getValue();
+    counterSO2++;
+  
+    indicePM10 += sensorContainer.getSensors()[i].getMeasurmentsPM10()[sensorContainer.getSensors()[i].getMeasurmentsPM10().size()].getValue();
+    counterPM10++;
+  
+    indiceNO2 += sensorContainer.getSensors()[i].getMeasurmentsNO2()[sensorContainer.getSensors()[i].getMeasurmentsNO2().size()].getValue();
+    counterNO2++;
   }
 
   double indice = 0.0;
@@ -66,7 +61,7 @@ int main() {
 
   for(int i = 0; i < 4; i++)
   {
-    if(indices[i] < indice)
+    if(indices[i] > indice)
     {
       indice = indices[i];
     }
@@ -110,7 +105,7 @@ int main() {
         system("clear");
         int selection = 1;
 
-        int nbCapteurs = 10;
+        int nbCapteurs = sensorContainer.getSensors().size();
         while (selection != 0) {
           cout << "Statistiques personnalisées" << endl;
           cout << "\033[0;31m" /*red*/ << "\r\nCAPTEURS FONCTIONNELS\r\n"
