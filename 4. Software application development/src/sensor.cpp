@@ -1,4 +1,5 @@
 #include "sensor.h"
+#include <iostream>
 #include <vector>
 
 string types[] = {"03", "SO2", "NO2", "PM10"};
@@ -91,20 +92,17 @@ bool Sensor::isFalty(SensorContainer sensorContainer) {
     if (distance(sensorContainer[i]) < RAYON &&
         sensorID != sensorContainer.getSensors()[i].sensorID) {
       measurments_neighbour_O3.insert(measurments_neighbour_O3.end(),
-                                      sensorContainer[i].measurments_O3.begin(),
-                                      sensorContainer[i].measurments_O3.end());
-      measurments_neighbour_SO2.insert(
-          measurments_neighbour_SO2.end(),
-          sensorContainer[i].measurments_SO2.begin(),
-          sensorContainer[i].measurments_SO2.end());
-      measurments_neighbour_NO2.insert(
-          measurments_neighbour_NO2.end(),
-          sensorContainer[i].measurments_NO2.begin(),
-          sensorContainer[i].measurments_NO2.end());
-      measurments_neighbour_PM10.insert(
-          measurments_neighbour_PM10.end(),
-          sensorContainer[i].measurments_PM10.begin(),
-          sensorContainer[i].measurments_PM10.end());
+                                      sensorContainer[i][O3].begin(),
+                                      sensorContainer[i][O3].end());
+      measurments_neighbour_SO2.insert(measurments_neighbour_SO2.end(),
+                                       sensorContainer[i][SO2].begin(),
+                                       sensorContainer[i][SO2].end());
+      measurments_neighbour_NO2.insert(measurments_neighbour_NO2.end(),
+                                       sensorContainer[i][NO2].begin(),
+                                       sensorContainer[i][NO2].end());
+      measurments_neighbour_PM10.insert(measurments_neighbour_PM10.end(),
+                                        sensorContainer[i][PM10].begin(),
+                                        sensorContainer[i][PM10].end());
     }
   }
 
@@ -127,7 +125,7 @@ bool Sensor::isFalty(SensorContainer sensorContainer) {
       average_NO2 < average_neighbour_NO2 * SEUIL_MIN ||
       average_PM10 > average_neighbour_PM10 * SEUIL_MAX ||
       average_PM10 < average_neighbour_PM10 * SEUIL_MIN) {
-
+    cout << "Sensor ID: " << sensorID << " is falty" << endl;
     return true;
   }
 

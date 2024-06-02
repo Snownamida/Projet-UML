@@ -10,13 +10,13 @@ int main() {
 
   sensorContainer.init();
 
-  for (Sensor sensor : sensorContainer.getSensors()) {
+  for (Sensor &sensor : sensorContainer.getSensors()) {
     sensor.setFalty(sensor.isFalty(sensorContainer));
   }
 
   ofstream faltyfile("dataset/falty.csv");
   faltyfile << "SensorID,Falty\n";
-  for (Sensor sensor : sensorContainer.getSensors()) {
+  for (Sensor &sensor : sensorContainer.getSensors()) {
     faltyfile << sensor.getSensorID() << "," << sensor.getFalty() << "\n";
   }
   faltyfile.close();
