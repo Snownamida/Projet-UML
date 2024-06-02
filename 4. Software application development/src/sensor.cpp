@@ -36,7 +36,7 @@ void Sensor::displayMeasurments() {
 
 bool Sensor::IsFalty(SensorContainer sensorContainer) {
 
-  printf("Sensor ID: %s\n", this->getSensorID().c_str());
+  cout << "Sensor ID: %s" << this->getSensorID() << endl;
 
   for (const auto &t : types) {
     vector<double> moyenne;
@@ -184,12 +184,4 @@ void SensorContainer::init() {
   }
 
   measurmentFile.close();
-}
-
-void SensorContainer::checkFaltySensors() {
-  for (int i = 0; i < sensors.size(); i++) {
-    if (sensors[i]->IsFalty(*this)) {
-      cout << "Sensor " << sensors[i]->getSensorID() << " is falty" << endl;
-    }
-  }
 }

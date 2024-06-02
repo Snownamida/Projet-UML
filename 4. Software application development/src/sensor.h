@@ -64,8 +64,6 @@ public:
   Sensor *getSensor(string sensorID);
 
   vector<Sensor *> getSensors() const { return sensors; }
-
-  void checkFaltySensors();
 };
 
 #endif

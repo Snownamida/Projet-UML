@@ -24,7 +24,5 @@ int main() {
 
   sensorContainer.init();
 
-  sensorContainer.checkFaltySensors();
-
   return 0;
 }

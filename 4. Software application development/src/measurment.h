@@ -32,8 +32,6 @@ public:
   double getValue() const;
   stamp getDate() const;
 
-  virtual ~Measurment();
-
 protected:
   string sensorID;
   string attributeID;
