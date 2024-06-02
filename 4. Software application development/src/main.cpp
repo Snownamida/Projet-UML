@@ -10,17 +10,9 @@ int main() {
 
   sensorContainer.init();
 
-<<<<<<< HEAD
-  /*
-  Sensor * sensor = new Sensor("Sensor01", 1.1, 1.5);
-  Sensor * sensor2 = new Sensor("Sensor02", 3, 5);
-  sensorContainer.addSensor(sensor);
-  sensorContainer.addSensor(sensor2);
-=======
   for (Sensor sensor : sensorContainer.getSensors()) {
     sensor.setFalty(sensor.isFalty(sensorContainer));
   }
->>>>>>> d8da88760b2454b831bb6dd767f70ecedfbc08ac
 
   ofstream faltyfile("dataset/falty.csv");
   faltyfile << "SensorID,Falty\n";
@@ -29,10 +21,6 @@ int main() {
   }
   faltyfile.close();
 
-<<<<<<< HEAD
-  sensor->displayMeasurments();
-  */
-=======
   bool quit = false;
   while (!quit) {
     int entry = -1;
@@ -43,7 +31,6 @@ int main() {
     cout << "[3] Capteurs defaillants" << endl;
     cout << "\r\nEntrer la selection :\r\n> ";
     cin >> entry;
->>>>>>> d8da88760b2454b831bb6dd767f70ecedfbc08ac
 
     switch (entry) {
     case 0: {
