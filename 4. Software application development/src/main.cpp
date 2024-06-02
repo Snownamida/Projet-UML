@@ -11,6 +11,7 @@ int main() {
   int entry;
   int quit = 0;
 
+  /*
   Sensor * sensor = new Sensor("Sensor01", 1.1, 1.5);
   Sensor * sensor2 = new Sensor("Sensor02", 3, 5);
   sensorContainer.addSensor(sensor);
@@ -22,6 +23,7 @@ int main() {
   sensor->addMeasurment(measurment2);
 
   sensor->displayMeasurments();
+  */
 
   while(!quit)
   {
@@ -72,6 +74,7 @@ int main() {
           cout << sensorContainer << endl;
 
           cout << "\r\nSelectionner un capteur de depart :" << endl;
+          cout << "[0] Retour au Menu principal" << endl;
           cout << "> ";
           cin >> selection;
 
@@ -155,12 +158,9 @@ int main() {
         while(entry != 0)
         {
           cout << "Cpateurs defaillants" << endl;
-          cout << sensorContainer.getSensors().size() << endl;
 
           for (int i = 0; i < sensorContainer.getSensors().size(); i++)
           {
-            cout << "passé par là" << endl;
-
             if (sensorContainer.getSensors()[i]->getFalty() == true)
             {
               cout << "Sensor ID: " << sensorContainer.getSensors()[i]->getSensorID() << endl;

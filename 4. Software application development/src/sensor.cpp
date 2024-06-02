@@ -69,7 +69,7 @@ bool Sensor::IsFalty(SensorContainer sensorContainer) {
       }
 
       double moyenneVoisinage = nbCapt > 0 ? sum / nbCapt : 0;
-      ofstream file("dataset/falty.csv", ios::app);
+      ofstream file("../dataset/falty.csv", ios::app);
 
       if (moyenneMeasurment < 0.5 * moyenneVoisinage ||
           moyenneMeasurment > 2 * moyenneVoisinage) {
@@ -91,11 +91,14 @@ void SensorContainer::addSensor(Sensor *sensor) { sensors.push_back(sensor); }
 
 ostream &operator<<(ostream &os, const SensorContainer &container) {
   for (int i = 0; i < container.sensors.size(); i++) {
+    cout << "\033[0;31m" /*red*/ << "\r\n[" << i << "]\033[0m" << endl;
     os << "Sensor ID: " << container.sensors[i]->getSensorID() << endl;
     os << "Latitude: " << container.sensors[i]->getLatitude() << endl;
     os << "Longitude: " << container.sensors[i]->getLongitude() << endl;
-    os << "Measurments: " << endl;
-    container.sensors[i]->displayMeasurments();
+    //cout << "\033[0;34m" /*blue*/;
+    // os << "\r\nMeasurments: " << endl;
+    // container.sensors[i]->displayMeasurments();
+    // cout << "\033[0m \r\n"  << endl;
     cout << endl;
   }
   return os;
@@ -111,11 +114,11 @@ Sensor *SensorContainer::getSensor(string sensorID) {
 }
 
 void SensorContainer::init() {
-  ofstream file("dataset/falty.csv");
+  ofstream file("../dataset/falty.csv");
   file << "SensorID,Falty\n";
 
   // Initialisation des capteurs
-  ifstream sensorFile("dataset/sensors.csv");
+  ifstream sensorFile("../dataset/sensors.csv");
 
   if (!sensorFile.is_open()) {
     cerr << "Erreur: impossible d'ouvrir le fichier." << endl;
@@ -149,7 +152,7 @@ void SensorContainer::init() {
   sensorFile.close();
 
   // Initialisation des mesures des capteurs
-  ifstream measurmentFile("dataset/measurements.csv");
+  ifstream measurmentFile("../dataset/measurements.csv");
 
   if (!measurmentFile.is_open()) {
     cerr << "Erreur: impossible d'ouvrir le fichier." << endl;
