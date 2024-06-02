@@ -85,7 +85,7 @@ public:
 
   Sensor &findSensorById(string sensorID);
 
-  vector<Sensor> getSensors() const { return sensors; }
+  vector<Sensor> &getSensors() { return sensors; }
 
   Sensor &operator[](int i) { return sensors[i]; }
 };

@@ -48,21 +48,19 @@ int main() {
 
   double indice = 0.0;
 
-  indiceO3 /= counterO3*82;
+  indiceO3 /= counterO3 * 82;
   indiceO3 *= 50;
-  indiceSO2 /= counterSO2*200;
+  indiceSO2 /= counterSO2 * 200;
   indiceSO2 *= 50;
-  indicePM10 /= counterPM10*35;
+  indicePM10 /= counterPM10 * 35;
   indicePM10 *= 50;
-  indiceNO2 /= counterNO2*213;
+  indiceNO2 /= counterNO2 * 213;
   indiceNO2 *= 50;
 
   double indices[4] = {indiceO3, indiceSO2, indicePM10, indiceNO2};
 
-  for(int i = 0; i < 4; i++)
-  {
-    if(indices[i] > indice)
-    {
+  for (int i = 0; i < 4; i++) {
+    if (indices[i] > indice) {
       indice = indices[i];
     }
   }
