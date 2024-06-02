@@ -73,7 +73,6 @@ void Sensor::displayMeasurments() const {
 
 bool Sensor::isFalty(SensorContainer sensorContainer) {
 
-  cout << "Sensor ID: %s" << this->getSensorID() << endl;
   const int RAYON = 150;
 
   double average_O3 = average(measurments_O3);
@@ -131,23 +130,15 @@ void SensorContainer::addSensor(Sensor &sensor) { sensors.push_back(sensor); }
 
 ostream &operator<<(ostream &os, const SensorContainer &container) {
   for (int i = 0; i < container.sensors.size(); i++) {
-<<<<<<< HEAD
     cout << "\033[0;31m" /*red*/ << "\r\n[" << i << "]\033[0m" << endl;
-    os << "Sensor ID: " << container.sensors[i]->getSensorID() << endl;
-    os << "Latitude: " << container.sensors[i]->getLatitude() << endl;
-    os << "Longitude: " << container.sensors[i]->getLongitude() << endl;
-    //cout << "\033[0;34m" /*blue*/;
-    // os << "\r\nMeasurments: " << endl;
-    // container.sensors[i]->displayMeasurments();
-    // cout << "\033[0m \r\n"  << endl;
-    cout << endl;
-=======
     os << "Sensor ID: " << container.sensors[i].getSensorID() << endl;
     os << "Latitude: " << container.sensors[i].getLatitude() << endl;
     os << "Longitude: " << container.sensors[i].getLongitude() << endl;
-    os << "Measurments: " << endl;
-    container.sensors[i].displayMeasurments();
->>>>>>> d8da88760b2454b831bb6dd767f70ecedfbc08ac
+    // cout << "\033[0;34m" /*blue*/;
+    //  os << "\r\nMeasurments: " << endl;
+    //  container.sensors[i]->displayMeasurments();
+    //  cout << "\033[0m \r\n"  << endl;
+    cout << endl;
   }
   return os;
 }
@@ -162,14 +153,8 @@ Sensor &SensorContainer::findSensorById(string sensorID) {
 }
 
 void SensorContainer::init() {
-<<<<<<< HEAD
-  ofstream file("../dataset/falty.csv");
-  file << "SensorID,Falty\n";
-
-=======
->>>>>>> d8da88760b2454b831bb6dd767f70ecedfbc08ac
   // Initialisation des capteurs
-  ifstream sensorFile("../dataset/sensors.csv");
+  ifstream sensorFile("dataset/sensors.csv");
 
   if (!sensorFile.is_open()) {
     cerr << "Erreur: impossible d'ouvrir le fichier." << endl;
