@@ -10,17 +10,9 @@ int main() {
 
   sensorContainer.init();
 
-<<<<<<< HEAD
-  /*
-  Sensor * sensor = new Sensor("Sensor01", 1.1, 1.5);
-  Sensor * sensor2 = new Sensor("Sensor02", 3, 5);
-  sensorContainer.addSensor(sensor);
-  sensorContainer.addSensor(sensor2);
-=======
   for (Sensor sensor : sensorContainer.getSensors()) {
     sensor.setFalty(sensor.isFalty(sensorContainer));
   }
->>>>>>> d8da88760b2454b831bb6dd767f70ecedfbc08ac
 
   ofstream faltyfile("dataset/falty.csv");
   faltyfile << "SensorID,Falty\n";
@@ -29,10 +21,6 @@ int main() {
   }
   faltyfile.close();
 
-<<<<<<< HEAD
-  sensor->displayMeasurments();
-  */
-=======
   bool quit = false;
   while (!quit) {
     int entry = -1;
@@ -43,7 +31,6 @@ int main() {
     cout << "[3] Capteurs defaillants" << endl;
     cout << "\r\nEntrer la selection :\r\n> ";
     cin >> entry;
->>>>>>> d8da88760b2454b831bb6dd767f70ecedfbc08ac
 
     switch (entry) {
     case 0: {
@@ -55,7 +42,57 @@ int main() {
       {
         system("clear");
 
-        /*affichage des stats*/
+        double indiceO3 = 0.0;
+        double indiceSO2 = 0.0;
+        double indicePM10 = 0.0;
+        double indiceNO2 = 0.0;
+
+        double counterO3 = 0.0;
+        double counterSO2 = 0.0;
+        double counterPM10 = 0.0;
+        double counterNO2 = 0.0;
+
+        for (int i = 0; i < sensorContainer.sensors.size(); i++) {
+          for (int j = 0; j < sensorContainer.sensors[i]->measurments_O3.size(); j++) {
+            indiceO3 += sensorContainer.sensors[i]->measurments_O3[j]->getValue();
+            counterO3++;
+          }
+          for (int j = 0; j < sensorContainer.sensors[i]->measurments_SO2.size(); j++) {
+            indiceSO2 += sensorContainer.sensors[i]->measurments_SO2[j]->getValue();
+            counterSO2++;
+          }
+          for (int j = 0; j < sensorContainer.sensors[i]->measurments_PM10.size(); j++) {
+            indicePM10 += sensorContainer.sensors[i]->measurments_PM10[j]->getValue();
+            counterPM10++;
+          }
+          for (int j = 0; j < sensorContainer.sensors[i]->measurments_NO2.size(); j++) {
+            indiceNO2 += sensorContainer.sensors[i]->measurments_NO2[j]->getValue();
+            counterNO2++;
+          }
+        }
+
+        double indice = 0.0;
+
+        indiceO3 /= counterO3*82;
+        indiceO3 *= 50;
+        indiceSO2 /= counterSO2*200;
+        indiceSO2 *= 50;
+        indicePM10 /= counterPM10*35;
+        indicePM10 *= 50;
+        indiceNO2 /= counterNO2*213;
+        indiceNO2 *= 50;
+
+        double indices[4] = {indiceO3, indiceSO2, indicePM10, indiceNO2};
+
+        for(int i = 0; i < 4; i++)
+        {
+          if(indices[i] < indice)
+          {
+            indice = indices[i];
+          }
+        }
+
+        cout << "INDICE DE QUALITE DE L'AIR : " << indice << "\r\n" << endl;
 
         while (entry != 0) {
           cout << "Statistiques Generales" << endl;
