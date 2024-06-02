@@ -32,18 +32,23 @@ int main() {
   double counterNO2 = 0.0;
 
   for (int i = 0; i < sensorContainer.getSensors().size(); i++) {
-    cout << "calcul n°"<< i << " en cours" << endl;
-    indiceO3 += sensorContainer.getSensors()[i].getMeasurmentsO3()[sensorContainer.getSensors()[i].getMeasurmentsO3().size()].getValue();
-    counterO3++;
-    
-    indiceSO2 += sensorContainer.getSensors()[i].getMeasurmentsSO2()[sensorContainer.getSensors()[i].getMeasurmentsSO2().size()].getValue();
-    counterSO2++;
-  
-    indicePM10 += sensorContainer.getSensors()[i].getMeasurmentsPM10()[sensorContainer.getSensors()[i].getMeasurmentsPM10().size()].getValue();
-    counterPM10++;
-  
-    indiceNO2 += sensorContainer.getSensors()[i].getMeasurmentsNO2()[sensorContainer.getSensors()[i].getMeasurmentsNO2().size()].getValue();
-    counterNO2++;
+    cout << "calcul en cours" << endl;
+    for (int j = 0; j < sensorContainer.getSensors()[i][O3].size(); j++) {
+      indiceO3 += sensorContainer.getSensors()[i][O3][j].getValue();
+      counterO3++;
+    }
+    for (int j = 0; j < sensorContainer.getSensors()[i][SO2].size(); j++) {
+      indiceSO2 += sensorContainer.getSensors()[i][SO2][j].getValue();
+      counterSO2++;
+    }
+    for (int j = 0; j < sensorContainer.getSensors()[i][PM10].size(); j++) {
+      indicePM10 += sensorContainer.getSensors()[i][PM10][j].getValue();
+      counterPM10++;
+    }
+    for (int j = 0; j < sensorContainer.getSensors()[i][NO2].size(); j++) {
+      indiceNO2 += sensorContainer.getSensors()[i][NO2][j].getValue();
+      counterNO2++;
+    }
   }
 
   double indice = 0.0;
