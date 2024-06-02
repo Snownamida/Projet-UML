@@ -48,15 +48,6 @@ double Measurment::getValue() const { return value; }
 
 stamp Measurment::getDate() const { return date; }
 
-Measurment::~Measurment()
-// Algorithme :
-//
-{
-#ifdef MAP
-  cout << "Appel au destructeur de <Log>" << endl;
-#endif
-} //-----
-
 ostream &operator<<(ostream &os, const Measurment &measurment) {
   os << "Sensor ID: " << measurment.sensorID << endl;
   os << "Attribute ID: " << measurment.attributeID << endl;

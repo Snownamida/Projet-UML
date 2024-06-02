@@ -1,35 +1,27 @@
 #include "sensor.h"
+#include <thread>
+#include <chrono>
 
 using namespace std;
 
 int main() {
 
   SensorContainer sensorContainer;
-
-  /*
-
-  Sensor * sensor = new Sensor("Sensor01", 1.1, 1.5);
-  Sensor * sensor2 = new Sensor("Sensor02", 3, 5);
-  container.addSensor(sensor);
-  container.addSensor(sensor2);
-
-  Measurment * measurment = new Measurment("2021-01-01 12:00:00", "Sensor01",
-  "Attribute01", 1.5); Measurment * measurment2 = new Measurment("2022-01-01
-  12:00:00", "Sensor02", "Attribute01", 3.5); sensor->addMeasurment(measurment);
-  sensor->addMeasurment(measurment2);
-
-  sensor->displayMeasurments();
-
-  */
-
   sensorContainer.init();
   int entry;
   int quit = 0;
 
-  Container container = Container();
-  container.init();
-  container.display();
-  return 1;
+  Sensor * sensor = new Sensor("Sensor01", 1.1, 1.5);
+  Sensor * sensor2 = new Sensor("Sensor02", 3, 5);
+  sensorContainer.addSensor(sensor);
+  sensorContainer.addSensor(sensor2);
+
+  Measurment * measurment = new Measurment("2021-01-01 12:00:00", "Sensor01", "Attribute01", 1.5); 
+  Measurment * measurment2 = new Measurment("2022-01-01 12:00:00", "Sensor02", "Attribute01", 3.5); 
+  sensor->addMeasurment(measurment);
+  sensor->addMeasurment(measurment2);
+
+  sensor->displayMeasurments();
 
   while(!quit)
   {
@@ -77,8 +69,9 @@ int main() {
           cout << "Statistiques personnalisées" << endl;
           cout << "\033[0;31m" /*red*/ << "\r\nCAPTEURS FONCTIONNELS\r\n"<< "\033[0m" << endl;
           
-          /*affichage des capteurs*/
-          cout << "Selectionner un capteur de depart :" << endl;
+          cout << sensorContainer << endl;
+
+          cout << "\r\nSelectionner un capteur de depart :" << endl;
           cout << "> ";
           cin >> selection;
 
@@ -162,21 +155,24 @@ int main() {
         while(entry != 0)
         {
           cout << "Cpateurs defaillants" << endl;
-          cout << "[0] Retour au Menu principal" << endl;
+          cout << sensorContainer.getSensors().size() << endl;
 
-          for (int i = 0; i < sensorContainer.size(); i++)
+          for (int i = 0; i < sensorContainer.getSensors().size(); i++)
           {
-            if (sensorContainer.sensors[i]->getFalty == true)
+            cout << "passé par là" << endl;
+
+            if (sensorContainer.getSensors()[i]->getFalty() == true)
             {
-              os << "Sensor ID: " << sensorContainer.sensors[i]->getSensorID() << endl;
-              os << "Latitude: " << sensorContainer.sensors[i]->getLatitude() << endl;
-              os << "Longitude: " << sensorContainer.sensors[i]->getLongitude() << endl;
+              cout << "Sensor ID: " << sensorContainer.getSensors()[i]->getSensorID() << endl;
+              cout << "Latitude: " << sensorContainer.getSensors()[i]->getLatitude() << endl;
+              cout << "Longitude: " << sensorContainer.getSensors()[i]->getLongitude() << endl;
             }
           }
 
           cout << endl;
 
           cout << "[X] Voir les informations du capteur n°X" << endl;
+          cout << "[0] Retour au Menu principal" << endl;
           cout << "Entrer la selection :" << endl;
           cin >> entry;
           cout << endl;

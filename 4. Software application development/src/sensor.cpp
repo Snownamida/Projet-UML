@@ -96,6 +96,7 @@ ostream &operator<<(ostream &os, const SensorContainer &container) {
     os << "Longitude: " << container.sensors[i]->getLongitude() << endl;
     os << "Measurments: " << endl;
     container.sensors[i]->displayMeasurments();
+    cout << endl;
   }
   return os;
 }
