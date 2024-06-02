@@ -169,24 +169,13 @@ int main() {
         while (entry != 0) {
           cout << "Cpateurs defaillants" << endl;
 
-<<<<<<< HEAD
-          for (int i = 0; i < sensorContainer.getSensors().size(); i++)
-          {
-            if (sensorContainer.getSensors()[i]->getFalty() == true)
-            {
-              cout << "Sensor ID: " << sensorContainer.getSensors()[i]->getSensorID() << endl;
-              cout << "Latitude: " << sensorContainer.getSensors()[i]->getLatitude() << endl;
-              cout << "Longitude: " << sensorContainer.getSensors()[i]->getLongitude() << endl;
-=======
           for (int i = 0; i < sensorContainer.getSensors().size(); i++) {
-            cout << "passé par là" << endl;
 
             if (sensorContainer[i].getFalty() == true) {
               cout << "Sensor ID: " << sensorContainer[i].getSensorID() << endl;
               cout << "Latitude: " << sensorContainer[i].getLatitude() << endl;
               cout << "Longitude: " << sensorContainer[i].getLongitude()
                    << endl;
->>>>>>> d8da88760b2454b831bb6dd767f70ecedfbc08ac
             }
           }
 
