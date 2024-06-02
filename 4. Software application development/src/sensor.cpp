@@ -169,7 +169,7 @@ void SensorContainer::init() {
 =======
 >>>>>>> d8da88760b2454b831bb6dd767f70ecedfbc08ac
   // Initialisation des capteurs
-  ifstream sensorFile("../dataset/sensors.csv");
+  ifstream sensorFile("dataset/sensors.csv");
 
   if (!sensorFile.is_open()) {
     cerr << "Erreur: impossible d'ouvrir le fichier." << endl;
