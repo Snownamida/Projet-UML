@@ -32,17 +32,16 @@ int main() {
   double counterNO2 = 0.0;
 
   for (int i = 0; i < sensorContainer.getSensors().size(); i++) {
-    cout << "calcul n°"<< i << " en cours" << endl;
-    indiceO3 += sensorContainer.getSensors()[i].getMeasurmentsO3()[sensorContainer.getSensors()[i].getMeasurmentsO3().size()].getValue();
+    indiceO3 += sensorContainer.getSensors()[i].getMeasurmentsO3()[sensorContainer.getSensors()[i].getMeasurmentsO3().size() - 1].getValue();
     counterO3++;
     
-    indiceSO2 += sensorContainer.getSensors()[i].getMeasurmentsSO2()[sensorContainer.getSensors()[i].getMeasurmentsSO2().size()].getValue();
+    indiceSO2 += sensorContainer.getSensors()[i].getMeasurmentsSO2()[sensorContainer.getSensors()[i].getMeasurmentsSO2().size() - 1].getValue();
     counterSO2++;
   
-    indicePM10 += sensorContainer.getSensors()[i].getMeasurmentsPM10()[sensorContainer.getSensors()[i].getMeasurmentsPM10().size()].getValue();
+    indicePM10 += sensorContainer.getSensors()[i].getMeasurmentsPM10()[sensorContainer.getSensors()[i].getMeasurmentsPM10().size() - 1].getValue();
     counterPM10++;
   
-    indiceNO2 += sensorContainer.getSensors()[i].getMeasurmentsNO2()[sensorContainer.getSensors()[i].getMeasurmentsNO2().size()].getValue();
+    indiceNO2 += sensorContainer.getSensors()[i].getMeasurmentsNO2()[sensorContainer.getSensors()[i].getMeasurmentsNO2().size() - 1].getValue();
     counterNO2++;
   }
 
@@ -203,13 +202,13 @@ int main() {
           for (int i = 0; i < sensorContainer.getSensors().size(); i++) {
 
             if (sensorContainer[i].getFalty() == true) {
-              cout << "Sensor ID: " << sensorContainer[i].getSensorID() << endl;
+              cout << "\033[0;31m" /*red*/;
+              cout << "Sensor ID: " << sensorContainer[i].getSensorID();
+              cout << "\033[0m" /*default*/ << endl;
               cout << "Latitude: " << sensorContainer[i].getLatitude() << endl;
-              cout << "Longitude: " << sensorContainer[i].getLongitude()
-                   << endl;
+              cout << "Longitude: " << sensorContainer[i].getLongitude() << "\r\n" << endl;
             }
           }
-
           cout << endl;
 
           cout << "[X] Voir les informations du capteur n°X" << endl;
