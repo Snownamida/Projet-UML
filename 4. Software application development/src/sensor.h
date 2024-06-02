@@ -20,6 +20,7 @@ public:
   Sensor(string sensorID, float latitude, float longitude);
 
   double distance(Sensor &s2);
+  double distanceTo(Sensor &sensor2);
   void addMeasurment(Measurment &measurment);
   void displayMeasurments() const;
 
@@ -31,6 +32,19 @@ public:
   vector<Measurment> getMeasurmentsSO2() { return measurments_SO2; }
   vector<Measurment> getMeasurmentsNO2() { return measurments_NO2; }
   vector<Measurment> getMeasurmentsPM10() { return measurments_PM10; }
+
+  std::vector<Measurment>& operator[](MeasureType type) {
+    switch (type) {
+      case O3:
+        return measurments_O3;
+      case SO2:
+        return measurments_SO2;
+      case PM10:
+        return measurments_PM10;
+      case NO2:
+        return measurments_NO2;
+    }
+  }
 
   void setSensorID(string sensorID) { this->sensorID = sensorID; }
   void setLatitude(float latitude) { this->latitude = latitude; }
