@@ -74,6 +74,8 @@ void Sensor::displayMeasurments() const {
 bool Sensor::isFalty(SensorContainer sensorContainer) {
 
   const int RAYON = 150;
+  const float SEUIL_MIN = 0.8;
+  const float SEUIL_MAX = 1.2;
 
   double average_O3 = average(measurments_O3);
   double average_SO2 = average(measurments_SO2);
@@ -117,14 +119,14 @@ bool Sensor::isFalty(SensorContainer sensorContainer) {
   cout << "NO2: " << average_NO2 << " " << average_neighbour_NO2 << endl;
   cout << "PM10: " << average_PM10 << " " << average_neighbour_PM10 << endl;
 
-  if (average_O3 < 0.5 * average_neighbour_O3 ||
-      average_O3 > 2 * average_neighbour_O3 ||
-      average_SO2 < 0.5 * average_neighbour_SO2 ||
-      average_SO2 > 2 * average_neighbour_SO2 ||
-      average_NO2 < 0.5 * average_neighbour_NO2 ||
-      average_NO2 > 2 * average_neighbour_NO2 ||
-      average_PM10 < 0.5 * average_neighbour_PM10 ||
-      average_PM10 > 2 * average_neighbour_PM10) {
+  if (average_O3 > average_neighbour_O3 * SEUIL_MAX ||
+      average_O3 < average_neighbour_O3 * SEUIL_MIN ||
+      average_SO2 > average_neighbour_SO2 * SEUIL_MAX ||
+      average_SO2 < average_neighbour_SO2 * SEUIL_MIN ||
+      average_NO2 > average_neighbour_NO2 * SEUIL_MAX ||
+      average_NO2 < average_neighbour_NO2 * SEUIL_MIN ||
+      average_PM10 > average_neighbour_PM10 * SEUIL_MAX ||
+      average_PM10 < average_neighbour_PM10 * SEUIL_MIN) {
 
     return true;
   }
