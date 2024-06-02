@@ -27,6 +27,10 @@ public:
   float getLatitude() const { return latitude; }
   float getLongitude() const { return longitude; }
   bool getFalty() const { return falty; }
+  vector<Measurment> getMeasurmentsO3() { return measurments_O3; }
+  vector<Measurment> getMeasurmentsSO2() { return measurments_SO2; }
+  vector<Measurment> getMeasurmentsNO2() { return measurments_NO2; }
+  vector<Measurment> getMeasurmentsPM10() { return measurments_PM10; }
 
   void setSensorID(string sensorID) { this->sensorID = sensorID; }
   void setLatitude(float latitude) { this->latitude = latitude; }

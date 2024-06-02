@@ -154,7 +154,7 @@ Sensor &SensorContainer::findSensorById(string sensorID) {
 
 void SensorContainer::init() {
   // Initialisation des capteurs
-  ifstream sensorFile("dataset/sensors.csv");
+  ifstream sensorFile("../dataset/sensors.csv");
 
   if (!sensorFile.is_open()) {
     cerr << "Erreur: impossible d'ouvrir le fichier." << endl;
