@@ -1,15 +1,12 @@
 
 
-using namespace std;
-
-#include <cstring>
-#include <fstream>
 #include <iostream>
 #include <sstream>
-#include <stdlib.h>
 #include <string>
 
 #include "measurment.h"
+
+using namespace std;
 
 Measurment::Measurment(string date, string sensorID, MeasureType measureType,
                        double value) {
