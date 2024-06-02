@@ -73,7 +73,6 @@ void Sensor::displayMeasurments() const {
 
 bool Sensor::isFalty(SensorContainer sensorContainer) {
 
-  cout << "Sensor ID: %s" << this->getSensorID() << endl;
   const int RAYON = 150;
 
   double average_O3 = average(measurments_O3);
@@ -135,10 +134,10 @@ ostream &operator<<(ostream &os, const SensorContainer &container) {
     os << "Sensor ID: " << container.sensors[i].getSensorID() << endl;
     os << "Latitude: " << container.sensors[i].getLatitude() << endl;
     os << "Longitude: " << container.sensors[i].getLongitude() << endl;
-    //cout << "\033[0;34m" /*blue*/;
-    // os << "\r\nMeasurments: " << endl;
-    // container.sensors[i]->displayMeasurments();
-    // cout << "\033[0m \r\n"  << endl;
+    // cout << "\033[0;34m" /*blue*/;
+    //  os << "\r\nMeasurments: " << endl;
+    //  container.sensors[i]->displayMeasurments();
+    //  cout << "\033[0m \r\n"  << endl;
     cout << endl;
   }
   return os;
