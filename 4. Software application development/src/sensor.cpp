@@ -29,7 +29,7 @@ Sensor::Sensor() {
 
 static map<pair<string, string>, double> distanceCache;
 
-double Sensor::distance(Sensor &sensor2) {
+double Sensor::distanceTo(Sensor &sensor2) {
   auto key = make_pair(sensorID, sensor2.sensorID);
   auto reverseKey = make_pair(sensor2.sensorID, sensorID);
 
@@ -122,16 +122,16 @@ bool Sensor::isFalty(SensorContainer sensorContainer) {
   unsigned int count_neighbour_PM10 = 0;
 
   for (int i = 0; i < sensorContainer.getSensors().size(); i++) {
-    if (distance(sensorContainer[i]) < RAYON &&
+    if (distanceTo(sensorContainer[i]) < RAYON &&
         sensorID != sensorContainer.getSensors()[i].sensorID) {
-      sum_neighbour_O3 += sum(sensorContainer[i].getMeasurmentsO3());
-      count_neighbour_O3 += sensorContainer[i].getMeasurmentsO3().size();
-      sum_neighbour_SO2 += sum(sensorContainer[i].getMeasurmentsSO2());
-      count_neighbour_SO2 += sensorContainer[i].getMeasurmentsSO2().size();
-      sum_neighbour_NO2 += sum(sensorContainer[i].getMeasurmentsNO2());
-      count_neighbour_NO2 += sensorContainer[i].getMeasurmentsNO2().size();
-      sum_neighbour_PM10 += sum(sensorContainer[i].getMeasurmentsPM10());
-      count_neighbour_PM10 += sensorContainer[i].getMeasurmentsPM10().size();
+      sum_neighbour_O3 += sum(sensorContainer[i][O3]);
+      count_neighbour_O3 += sensorContainer[i][O3].size();
+      sum_neighbour_SO2 += sum(sensorContainer[i][SO2]);
+      count_neighbour_SO2 += sensorContainer[i][SO2].size();
+      sum_neighbour_NO2 += sum(sensorContainer[i][NO2]);
+      count_neighbour_NO2 += sensorContainer[i][NO2].size();
+      sum_neighbour_PM10 += sum(sensorContainer[i][PM10]);
+      count_neighbour_PM10 += sensorContainer[i][PM10].size();
     }
   }
 
