@@ -11,7 +11,7 @@ using namespace std;
 
 #include "measurment.h"
 
-Measurment::Measurment(string date, string sensorID, string attributeID,
+Measurment::Measurment(string date, string sensorID, MeasureType measureType,
                        double value) {
 
   string datetime = date;
@@ -36,13 +36,13 @@ Measurment::Measurment(string date, string sensorID, string attributeID,
 
   this->date = s;
   this->sensorID = sensorID;
-  this->attributeID = attributeID;
+  this->measureType = measureType;
   this->value = value;
 }
 
 string Measurment::getSensorID() const { return sensorID; }
 
-string Measurment::getAttributeID() const { return attributeID; }
+MeasureType Measurment::getMeasureType() const { return measureType; }
 
 double Measurment::getValue() const { return value; }
 
@@ -50,7 +50,7 @@ stamp Measurment::getDate() const { return date; }
 
 ostream &operator<<(ostream &os, const Measurment &measurment) {
   os << "Sensor ID: " << measurment.sensorID << endl;
-  os << "Attribute ID: " << measurment.attributeID << endl;
+  os << "Measure Type: " << measurment.measureType << endl;
   os << "Value: " << measurment.value << endl;
   os << "Date: " << measurment.date.annee << "-" << measurment.date.mois << "-"
      << measurment.date.jour << " " << measurment.date.h.h << ":"
