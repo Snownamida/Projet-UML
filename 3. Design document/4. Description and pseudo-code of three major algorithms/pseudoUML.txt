@@ -1,0 +1,61 @@
+void IsFalty(Sensor capt):
+    Pour chaque type (O3, SO2, NO2, PM10) dans Capt.GetMeasurments():
+        moyCapt <- moyenne des mesures de ce type provenant de Capt
+        rayon <- r
+        sum = 0
+        nbCapt = 0
+        Pour chaque autre capteur C tel que Distance(C, Capt) < rayon:
+            nbCapt++
+            sum += valeur(C)
+        moyC <- sum/nbCapt
+        Si (MoyCapt<0.5*MoyC ou MoyCapt<2*MoyC):
+            alors Capt.SetFaulty(1) //signaler Capt comme défaillant
+            return True
+    return
+
+struct Quali {
+    int O3;
+    int SO2;
+    int PM10;
+    int NO2;
+    int distance;
+}
+
+Struct Quali CalculateQuality(int long, int lat):
+    minDist = INT_MAX
+    int captID
+
+    Pour chaque capteur C :
+        distance <- distance entre (long, lat) et (C.getLong, C.getLat)
+        Si  distance < minDist
+            minDist = distance
+            captID = C.getID()
+    struct Quali Q <- moyennes des mesures du capteur captID + minDist
+    return Q
+
+struct Similarity {
+    int captID;
+    int score;
+}
+
+struct Stamp {
+    int day;
+    int month;
+    int year;
+    int hour;
+    int minute;
+    int second
+}
+
+struct Similarity* similar(Sensor capt, Stamp debut, Stamp fin):
+    struct Similarity* sims[]
+    int sum
+
+    Pour chaque capteur c diférent de capt:
+        sum <- 0
+        Pour chaque type de donnée t (O3, SO2, NO2, PM10):
+            sum += abs(c.type.moyenne / capt.type.moyenne - 1)
+        sum /= 4
+        sims <- Struct Similarity(c.getID, sum)
+    sims.sort()
+    return sims
