@@ -104,8 +104,8 @@ void Sensor::displayMeasurments() const {
 bool Sensor::isFalty(SensorContainer sensorContainer) {
 
   const int RAYON = 100000;
-  const float SEUIL_MIN = 0.8;
-  const float SEUIL_MAX = 1.2;
+  const float SEUIL_MIN = 0.7;
+  const float SEUIL_MAX = 1.3;
 
   double average_O3 = average(measurments_O3);
   double average_SO2 = average(measurments_SO2);
