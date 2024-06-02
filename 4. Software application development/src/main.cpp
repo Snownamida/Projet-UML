@@ -2,31 +2,14 @@
 #include <chrono>
 #include <thread>
 
-
 using namespace std;
 
 int main() {
 
   SensorContainer sensorContainer;
 
-  // Sensor *sensor = new Sensor("Sensor01", 1.1, 1.5);
-  // Sensor *sensor2 = new Sensor("Sensor02", 3, 5);
-  // container.addSensor(sensor);
-  // container.addSensor(sensor2);
-
-  // Measurment *measurment =
-  //     new Measurment("2021-01-01 12:00:00", "Sensor01", "Attribute01", 1.5);
-  // Measurment * measurment2 = new Measurment("2022-01-01
-  // 12:00:00", "Sensor02", "Attribute01", 3.5);
-  // sensor->addMeasurment(measurment); sensor->addMeasurment(measurment2);
-
-  // displayMeasurments in sensorContainer
-
-  for (int i = 0; i < sensorContainer.getSensors().size(); i++) {
-    sensorContainer.getSensors()[i].displayMeasurments();
-  }
-
   sensorContainer.init();
+
   for (Sensor sensor : sensorContainer.getSensors()) {
     sensor.setFalty(sensor.isFalty(sensorContainer));
   }
@@ -36,10 +19,11 @@ int main() {
   for (Sensor sensor : sensorContainer.getSensors()) {
     faltyfile << sensor.getSensorID() << "," << sensor.getFalty() << "\n";
   }
+  faltyfile.close();
 
-  sensor->displayMeasurments();
-
+  bool quit = false;
   while (!quit) {
+    int entry = -1;
     system("clear");
     cout << "[0] Quitter" << endl;
     cout << "[1] Statistiques generales" << endl;
@@ -175,13 +159,11 @@ int main() {
           for (int i = 0; i < sensorContainer.getSensors().size(); i++) {
             cout << "passé par là" << endl;
 
-            if (sensorContainer.getSensors()[i]->getFalty() == true) {
-              cout << "Sensor ID: "
-                   << sensorContainer.getSensors()[i]->getSensorID() << endl;
-              cout << "Latitude: "
-                   << sensorContainer.getSensors()[i]->getLatitude() << endl;
-              cout << "Longitude: "
-                   << sensorContainer.getSensors()[i]->getLongitude() << endl;
+            if (sensorContainer[i].getFalty() == true) {
+              cout << "Sensor ID: " << sensorContainer[i].getSensorID() << endl;
+              cout << "Latitude: " << sensorContainer[i].getLatitude() << endl;
+              cout << "Longitude: " << sensorContainer[i].getLongitude()
+                   << endl;
             }
           }
 
