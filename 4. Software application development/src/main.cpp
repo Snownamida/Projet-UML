@@ -21,6 +21,57 @@ int main() {
   }
   faltyfile.close();
 
+  double indiceO3 = 0.0;
+  double indiceSO2 = 0.0;
+  double indicePM10 = 0.0;
+  double indiceNO2 = 0.0;
+
+  double counterO3 = 0.0;
+  double counterSO2 = 0.0;
+  double counterPM10 = 0.0;
+  double counterNO2 = 0.0;
+
+  for (int i = 0; i < sensorContainer.getSensors().size(); i++) {
+    cout << "calcul en cours" << endl;
+    for (int j = 0; j < sensorContainer.getSensors()[i].getMeasurmentsO3().size(); j++) {
+      indiceO3 += sensorContainer.getSensors()[i].getMeasurmentsO3()[j].getValue();
+      counterO3++;
+    }
+    for (int j = 0; j < sensorContainer.getSensors()[i].getMeasurmentsSO2().size(); j++) {
+      indiceSO2 += sensorContainer.getSensors()[i].getMeasurmentsSO2()[j].getValue();
+      counterSO2++;
+    }
+    for (int j = 0; j < sensorContainer.getSensors()[i].getMeasurmentsPM10().size(); j++) {
+      indicePM10 += sensorContainer.getSensors()[i].getMeasurmentsPM10()[j].getValue();
+      counterPM10++;
+    }
+    for (int j = 0; j < sensorContainer.getSensors()[i].getMeasurmentsNO2().size(); j++) {
+      indiceNO2 += sensorContainer.getSensors()[i].getMeasurmentsNO2()[j].getValue();
+      counterNO2++;
+    }
+  }
+
+  double indice = 0.0;
+
+  indiceO3 /= counterO3*82;
+  indiceO3 *= 50;
+  indiceSO2 /= counterSO2*200;
+  indiceSO2 *= 50;
+  indicePM10 /= counterPM10*35;
+  indicePM10 *= 50;
+  indiceNO2 /= counterNO2*213;
+  indiceNO2 *= 50;
+
+  double indices[4] = {indiceO3, indiceSO2, indicePM10, indiceNO2};
+
+  for(int i = 0; i < 4; i++)
+  {
+    if(indices[i] < indice)
+    {
+      indice = indices[i];
+    }
+  }
+
   bool quit = false;
   while (!quit) {
     int entry = -1;
@@ -41,57 +92,6 @@ int main() {
       // Statistiques generales
       {
         system("clear");
-
-        double indiceO3 = 0.0;
-        double indiceSO2 = 0.0;
-        double indicePM10 = 0.0;
-        double indiceNO2 = 0.0;
-
-        double counterO3 = 0.0;
-        double counterSO2 = 0.0;
-        double counterPM10 = 0.0;
-        double counterNO2 = 0.0;
-
-        for (int i = 0; i < sensorContainer.getSensors().size(); i++) {
-          cout << "calcuol en cours" << endl;
-          for (int j = 0; j < sensorContainer.getSensors()[i].getMeasurmentsO3().size(); j++) {
-            indiceO3 += sensorContainer.getSensors()[i].getMeasurmentsO3()[j].getValue();
-            counterO3++;
-          }
-          for (int j = 0; j < sensorContainer.getSensors()[i].getMeasurmentsSO2().size(); j++) {
-            indiceSO2 += sensorContainer.getSensors()[i].getMeasurmentsSO2()[j].getValue();
-            counterSO2++;
-          }
-          for (int j = 0; j < sensorContainer.getSensors()[i].getMeasurmentsPM10().size(); j++) {
-            indicePM10 += sensorContainer.getSensors()[i].getMeasurmentsPM10()[j].getValue();
-            counterPM10++;
-          }
-          for (int j = 0; j < sensorContainer.getSensors()[i].getMeasurmentsNO2().size(); j++) {
-            indiceNO2 += sensorContainer.getSensors()[i].getMeasurmentsNO2()[j].getValue();
-            counterNO2++;
-          }
-        }
-
-        double indice = 0.0;
-
-        indiceO3 /= counterO3*82;
-        indiceO3 *= 50;
-        indiceSO2 /= counterSO2*200;
-        indiceSO2 *= 50;
-        indicePM10 /= counterPM10*35;
-        indicePM10 *= 50;
-        indiceNO2 /= counterNO2*213;
-        indiceNO2 *= 50;
-
-        double indices[4] = {indiceO3, indiceSO2, indicePM10, indiceNO2};
-
-        for(int i = 0; i < 4; i++)
-        {
-          if(indices[i] < indice)
-          {
-            indice = indices[i];
-          }
-        }
 
         cout << "INDICE DE QUALITE DE L'AIR : " << indice << "\r\n" << endl;
 

@@ -113,11 +113,11 @@ bool Sensor::isFalty(SensorContainer sensorContainer) {
   double average_neighbour_NO2 = average(measurments_neighbour_NO2);
   double average_neighbour_PM10 = average(measurments_neighbour_PM10);
 
-  cout << "Sensor ID: " << sensorID << endl;
-  cout << "O3: " << average_O3 << " " << average_neighbour_O3 << endl;
-  cout << "SO2: " << average_SO2 << " " << average_neighbour_SO2 << endl;
-  cout << "NO2: " << average_NO2 << " " << average_neighbour_NO2 << endl;
-  cout << "PM10: " << average_PM10 << " " << average_neighbour_PM10 << endl;
+  // cout << "Sensor ID: " << sensorID << endl;
+  // cout << "O3: " << average_O3 << " " << average_neighbour_O3 << endl;
+  // cout << "SO2: " << average_SO2 << " " << average_neighbour_SO2 << endl;
+  // cout << "NO2: " << average_NO2 << " " << average_neighbour_NO2 << endl;
+  // cout << "PM10: " << average_PM10 << " " << average_neighbour_PM10 << endl;
 
   if (average_O3 > average_neighbour_O3 * SEUIL_MAX ||
       average_O3 < average_neighbour_O3 * SEUIL_MIN ||
@@ -162,7 +162,7 @@ Sensor &SensorContainer::findSensorById(string sensorID) {
 
 void SensorContainer::init() {
   // Initialisation des capteurs
-  ifstream sensorFile("../dataset/sensors.csv");
+  ifstream sensorFile("dataset/sensors.csv");
 
   if (!sensorFile.is_open()) {
     throw runtime_error("Erreur: impossible de lire le fichier sensors.csv");
