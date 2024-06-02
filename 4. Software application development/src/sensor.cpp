@@ -20,8 +20,8 @@ Sensor::Sensor(string SensorID, float Latitude, float Longitude) {
   this->falty = false;
 }
 
-void Sensor::addMeasurment(Measurment * measurment) {
-    measurments.push_back(measurment);
+void Sensor::addMeasurment(Measurment *measurment) {
+  measurments.push_back(measurment);
 }
 
 void Sensor::displayMeasurments() {
@@ -68,15 +68,13 @@ bool Sensor::IsFalty(Container container) {
         }
       }
 
-      
-
       double moyenneVoisinage = nbCapt > 0 ? sum / nbCapt : 0;
       ofstream file("dataset/falty.csv", ios::app);
 
       if (moyenneMeasurment < 0.5 * moyenneVoisinage ||
           moyenneMeasurment > 2 * moyenneVoisinage) {
         this->setFalty(true);
-        
+
         file << this->getSensorID() << ",true\n";
         return true;
       } else {

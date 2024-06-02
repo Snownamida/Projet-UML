@@ -1,14 +1,14 @@
 #if !defined(CONTAINER_H)
 #define CONTAINER_H
 
+#include "sensor.h"
+#include <fstream>
 #include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include <fstream>
 #include <sstream>
 #include <stdlib.h>
-#include "sensor.h"
+#include <string>
+#include <vector>
+
 
 using namespace std;
 
@@ -22,13 +22,11 @@ struct Quality {
 
 class Sensor;
 
-class Container
-{
+class Container {
 private:
-    vector<Sensor*> sensors;
+  vector<Sensor *> sensors;
 
 public:
-
   void init();
 
   Container(/* args */);
@@ -37,9 +35,9 @@ public:
 
   friend ostream &operator<<(ostream &os, const Container &container);
 
-  Sensor * getSensor(string sensorID);
+  Sensor *getSensor(string sensorID);
 
-  vector<Sensor*> getSensors() const { return sensors; }
+  vector<Sensor *> getSensors() const { return sensors; }
 
   void checkFaltySensors();
 
