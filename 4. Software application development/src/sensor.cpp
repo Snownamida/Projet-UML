@@ -5,16 +5,20 @@
 
 string types[] = {"03", "SO2", "NO2", "PM10"};
 
+static double sum(vector<Measurment> measurments) {
+  double sum = 0;
+  for (int i = 0; i < measurments.size(); i++) {
+    sum += measurments[i].getValue();
+  }
+  return sum;
+}
+
 static double average(vector<Measurment> measurments) {
   if (measurments.size() == 0) {
     return 0;
   }
 
-  double sum = 0;
-  for (int i = 0; i < measurments.size(); i++) {
-    sum += measurments[i].getValue();
-  }
-  return sum / measurments.size();
+  return sum(measurments) / measurments.size();
 }
 
 Sensor::Sensor() {
@@ -108,33 +112,33 @@ bool Sensor::isFalty(SensorContainer sensorContainer) {
   double average_NO2 = average(measurments_NO2);
   double average_PM10 = average(measurments_PM10);
 
-  vector<Measurment> measurments_neighbour_O3;
-  vector<Measurment> measurments_neighbour_SO2;
-  vector<Measurment> measurments_neighbour_NO2;
-  vector<Measurment> measurments_neighbour_PM10;
+  double sum_neighbour_O3 = 0;
+  unsigned int count_neighbour_O3 = 0;
+  double sum_neighbour_SO2 = 0;
+  unsigned int count_neighbour_SO2 = 0;
+  double sum_neighbour_NO2 = 0;
+  unsigned int count_neighbour_NO2 = 0;
+  double sum_neighbour_PM10 = 0;
+  unsigned int count_neighbour_PM10 = 0;
 
   for (int i = 0; i < sensorContainer.getSensors().size(); i++) {
     if (distance(sensorContainer[i]) < RAYON &&
         sensorID != sensorContainer.getSensors()[i].sensorID) {
-      measurments_neighbour_O3.insert(measurments_neighbour_O3.end(),
-                                      sensorContainer[i][O3].begin(),
-                                      sensorContainer[i][O3].end());
-      measurments_neighbour_SO2.insert(measurments_neighbour_SO2.end(),
-                                       sensorContainer[i][SO2].begin(),
-                                       sensorContainer[i][SO2].end());
-      measurments_neighbour_NO2.insert(measurments_neighbour_NO2.end(),
-                                       sensorContainer[i][NO2].begin(),
-                                       sensorContainer[i][NO2].end());
-      measurments_neighbour_PM10.insert(measurments_neighbour_PM10.end(),
-                                        sensorContainer[i][PM10].begin(),
-                                        sensorContainer[i][PM10].end());
+      sum_neighbour_O3 += sum(sensorContainer[i].getMeasurmentsO3());
+      count_neighbour_O3 += sensorContainer[i].getMeasurmentsO3().size();
+      sum_neighbour_SO2 += sum(sensorContainer[i].getMeasurmentsSO2());
+      count_neighbour_SO2 += sensorContainer[i].getMeasurmentsSO2().size();
+      sum_neighbour_NO2 += sum(sensorContainer[i].getMeasurmentsNO2());
+      count_neighbour_NO2 += sensorContainer[i].getMeasurmentsNO2().size();
+      sum_neighbour_PM10 += sum(sensorContainer[i].getMeasurmentsPM10());
+      count_neighbour_PM10 += sensorContainer[i].getMeasurmentsPM10().size();
     }
   }
 
-  double average_neighbour_O3 = average(measurments_neighbour_O3);
-  double average_neighbour_SO2 = average(measurments_neighbour_SO2);
-  double average_neighbour_NO2 = average(measurments_neighbour_NO2);
-  double average_neighbour_PM10 = average(measurments_neighbour_PM10);
+  double average_neighbour_O3 = sum_neighbour_O3 / count_neighbour_O3;
+  double average_neighbour_SO2 = sum_neighbour_SO2 / count_neighbour_SO2;
+  double average_neighbour_NO2 = sum_neighbour_NO2 / count_neighbour_NO2;
+  double average_neighbour_PM10 = sum_neighbour_PM10 / count_neighbour_PM10;
 
   // cout << "Sensor ID: " << sensorID << endl;
   // cout << "O3: " << average_O3 << " " << average_neighbour_O3 << endl;
