@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
   ofstream faltyfile("dataset/falty.csv");
   faltyfile << "SensorID,Falty\n";
   for (Sensor &sensor : sensorContainer.getSensors()) {
-    faltyfile << sensor.getSensorID() << "," << sensor.getFalty() << "\n";
+    faltyfile << sensor.getSensorID() << "," << sensor.getFalty() << endl;
   }
   faltyfile.close();
 
@@ -166,7 +166,9 @@ int main(int argc, char *argv[]) {
               cout << "Sensor ID: " << sensorContainer[i].getSensorID();
               cout << "\033[0m" /*default*/ << endl;
               cout << "Latitude: " << sensorContainer[i].getLatitude() << endl;
-              cout << "Longitude: " << sensorContainer[i].getLongitude() << "\r\n" << endl;
+              cout << "Longitude: " << sensorContainer[i].getLongitude()
+                   << "\r\n"
+                   << endl;
             }
           }
           cout << endl;
