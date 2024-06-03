@@ -188,12 +188,12 @@ int main(int argc, char *argv[]) {
 
           for (int i = 0; i < sensorContainer.getSensors().size(); i++) {
 
-            if (sensorContainer[i].getFalty() == true) {
+            if (sensorContainer.getSensors[i].getFalty() == true) {
               cout << "\033[0;31m" /*red*/;
-              cout << "Sensor ID: " << sensorContainer[i].getSensorID();
+              cout << "Sensor ID: " << sensorContainer.getSensors[i].getSensorID();
               cout << "\033[0m" /*default*/ << endl;
-              cout << "Latitude: " << sensorContainer[i].getLatitude() << endl;
-              cout << "Longitude: " << sensorContainer[i].getLongitude()
+              cout << "Latitude: " << sensorContainer.getSensors[i].getLatitude() << endl;
+              cout << "Longitude: " << sensorContainer.getSensors[i].getLongitude()
                    << "\r\n"
                    << endl;
             }
