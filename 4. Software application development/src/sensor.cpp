@@ -320,34 +320,22 @@ double SensorContainer::calculateAirQuality() {
   double indicePM10 = 0.0;
   double indiceNO2 = 0.0;
 
-  double counterO3 = 0.0;
-  double counterSO2 = 0.0;
-  double counterPM10 = 0.0;
-  double counterNO2 = 0.0;
-
   for (int i = 0; i < sensors.size(); i++) {
-    indiceO3 += sensors[i][O3][sensors[i][O3].size() - 1].getValue();
-    counterO3++;
-
-    indiceSO2 += sensors[i][SO2][sensors[i][SO2].size() - 1].getValue();
-    counterSO2++;
-
-    indicePM10 += sensors[i][PM10][sensors[i][PM10].size() - 1].getValue();
-    counterPM10++;
-
-    indiceNO2 += sensors[i][NO2][sensors[i][NO2].size() - 1].getValue();
-    counterNO2++;
+    indiceO3 += average(sensors[i][O3]);
+    indiceSO2 += average(sensors[i][SO2]);
+    indicePM10 += average(sensors[i][PM10]);
+    indiceNO2 += average(sensors[i][NO2]);
   }
 
   double indice = 0.0;
 
-  indiceO3 /= counterO3 * 82;
+  indiceO3 /= sensors.size() * 82;
   indiceO3 *= 50;
-  indiceSO2 /= counterSO2 * 200;
+  indiceSO2 /= sensors.size() * 200;
   indiceSO2 *= 50;
-  indicePM10 /= counterPM10 * 35;
+  indicePM10 /= sensors.size() * 35;
   indicePM10 *= 50;
-  indiceNO2 /= counterNO2 * 213;
+  indiceNO2 /= sensors.size() * 213;
   indiceNO2 *= 50;
 
   double indices[4] = {indiceO3, indiceSO2, indicePM10, indiceNO2};

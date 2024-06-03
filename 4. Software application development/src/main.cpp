@@ -59,6 +59,7 @@ int main(int argc, char *argv[]) {
     cout << "[1] Statistiques generales" << endl;
     cout << "[2] Statistiques personnailsees" << endl;
     cout << "[3] Capteurs defaillants" << endl;
+    cout << "[4] Capteurs Similaires" << endl;
     cout << "\r\nEntrer la selection :\r\n> ";
     cin >> entry;
 
@@ -184,9 +185,9 @@ int main(int argc, char *argv[]) {
         system("clear");
 
         while (entry != 0) {
-          cout << "Cpateurs defaillants" << endl;
+          cout << "Capteurs defaillants" << endl;
 
-          for (int i = 0; i < sensorContainer.getSensors().size(); i++) {
+          for (int i = 0; i < sensorContainer.getSensors().size() - 1; i++) {
 
             if (sensorContainer[i].getFalty() == true) {
               cout << "\033[0;31m" /*red*/;
@@ -205,6 +206,36 @@ int main(int argc, char *argv[]) {
           cout << "Entrer la selection :" << endl;
           cin >> entry;
           cout << endl;          
+        }
+        break;
+      }
+      case 4:
+      // Capteurs Similaires
+      {
+        system("clear");
+
+        while (entry != 0) {
+          cout << "[X] Voir les capteurs similaire aucapteur n°X" << endl;
+          cout << "\033[0;31m" /*red*/;
+          cout << "Capteurs disponibles : [" << 0 << " -> " << sensorContainer.getSensors().size() - 1 << "]" << endl;
+          cout << "\033[0m" /*default*/;
+          cout << "[0] Retour au Menu principal" << endl;
+          cout << "Entrer la selection :" << endl;
+          cin >> entry;
+          cout << endl;  
+
+          if(entry < sensorContainer.getSensors().size() - 1 && entry >= 0){
+            vector<pair<Sensor, double>> similarSensors;
+            similarSensors = sensorContainer.getSensors()[entry].getSimilar(sensorContainer);
+            for(int i = 9; i > -1; i--)
+            {
+              cout << "Place n°" << i << " : " << "\033[0;31m" /*red*/ << similarSensors[i].first.getSensorID() << "\033[0m" /*default*/ << endl;
+            }
+          }      
+          cout << "\r\n[0] Retour au Menu principal" << endl;
+          cout << "Entrer la selection :" << endl;
+          cin >> entry;
+          cout << endl;    
         }
         break;
       }
