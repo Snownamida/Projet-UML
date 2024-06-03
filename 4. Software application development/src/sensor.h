@@ -33,16 +33,16 @@ public:
   vector<Measurment> getMeasurmentsNO2() { return measurments_NO2; }
   vector<Measurment> getMeasurmentsPM10() { return measurments_PM10; }
 
-  std::vector<Measurment>& operator[](MeasureType type) {
+  std::vector<Measurment> &operator[](MeasureType type) {
     switch (type) {
-      case O3:
-        return measurments_O3;
-      case SO2:
-        return measurments_SO2;
-      case PM10:
-        return measurments_PM10;
-      case NO2:
-        return measurments_NO2;
+    case O3:
+      return measurments_O3;
+    case SO2:
+      return measurments_SO2;
+    case PM10:
+      return measurments_PM10;
+    case NO2:
+      return measurments_NO2;
     }
   }
 
@@ -91,7 +91,7 @@ public:
 
   Sensor &operator[](int i) { return sensors[i]; }
 
-  double calculateAirQuality(SensorContainer &sensorContainer);
+  double calculateAirQuality();
 };
 
 #endif

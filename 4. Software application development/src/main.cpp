@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
   }
   faltyfile.close();
 
-  double indice = sensorContainer.calculateAirQuality(sensorContainer);
+  double indice = sensorContainer.calculateAirQuality();
 
   bool quit = false;
   while (!quit) {

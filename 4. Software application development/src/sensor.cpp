@@ -268,7 +268,7 @@ void SensorContainer::loadFromFile(const string &sensorFilePath,
   measurmentFile.close();
 }
 
-double SensorContainer::calculateAirQuality(SensorContainer &sensorContainer){
+double SensorContainer::calculateAirQuality() {
   double indiceO3 = 0.0;
   double indiceSO2 = 0.0;
   double indicePM10 = 0.0;
@@ -279,17 +279,17 @@ double SensorContainer::calculateAirQuality(SensorContainer &sensorContainer){
   double counterPM10 = 0.0;
   double counterNO2 = 0.0;
 
-  for (int i = 0; i < sensorContainer.getSensors().size(); i++) {
-    indiceO3 += sensorContainer.getSensors()[i].getMeasurmentsO3()[sensorContainer.getSensors()[i].getMeasurmentsO3().size() - 1].getValue();
+  for (int i = 0; i < sensors.size(); i++) {
+    indiceO3 += sensors[i][O3][sensors[i][O3].size() - 1].getValue();
     counterO3++;
-    
-    indiceSO2 += sensorContainer.getSensors()[i].getMeasurmentsSO2()[sensorContainer.getSensors()[i].getMeasurmentsSO2().size() - 1].getValue();
+
+    indiceSO2 += sensors[i][SO2][sensors[i][SO2].size() - 1].getValue();
     counterSO2++;
-  
-    indicePM10 += sensorContainer.getSensors()[i].getMeasurmentsPM10()[sensorContainer.getSensors()[i].getMeasurmentsPM10().size() - 1].getValue();
+
+    indicePM10 += sensors[i][PM10][sensors[i][PM10].size() - 1].getValue();
     counterPM10++;
-  
-    indiceNO2 += sensorContainer.getSensors()[i].getMeasurmentsNO2()[sensorContainer.getSensors()[i].getMeasurmentsNO2().size() - 1].getValue();
+
+    indiceNO2 += sensors[i][NO2][sensors[i][NO2].size() - 1].getValue();
     counterNO2++;
   }
 
