@@ -6,14 +6,32 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 
+  ofstream benchmark("log/benchmark.log");
+
   SensorContainer sensorContainer;
 
   sensorContainer.loadFromFile("dataset/sensors.csv",
                                "dataset/measurements.csv");
 
+  // benchmarking
+  auto start = chrono::high_resolution_clock::now();
+
   for (Sensor &sensor : sensorContainer.getSensors()) {
     sensor.setFalty(sensor.isFalty(sensorContainer));
   }
+
+  auto stop = chrono::high_resolution_clock::now();
+  auto duration = chrono::duration_cast<chrono::milliseconds>(stop - start);
+
+  benchmark
+      << "Temps total d'execution pour trouver les capteurs defaillants : "
+      << duration.count() << " ms" << endl;
+  benchmark << "Nombre de capteurs : " << sensorContainer.getSensors().size()
+            << endl;
+  benchmark << "Temps moyen d'execution par capteur : "
+            << duration.count() / sensorContainer.getSensors().size() << " ms"
+            << endl;
+  benchmark.close();
 
   ofstream faltyfile("dataset/falty.csv");
   faltyfile << "SensorID,Falty\n";
