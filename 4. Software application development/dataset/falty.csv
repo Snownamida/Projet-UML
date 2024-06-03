@@ -1,11 +1,11 @@
 SensorID,Falty
 Sensor0,0
-Sensor1,1
+Sensor1,0
 Sensor2,0
-Sensor3,1
-Sensor4,1
-Sensor5,1
-Sensor6,1
+Sensor3,0
+Sensor4,0
+Sensor5,0
+Sensor6,0
 Sensor7,0
 Sensor8,0
 Sensor9,0
@@ -19,7 +19,7 @@ Sensor16,0
 Sensor17,0
 Sensor18,0
 Sensor19,0
-Sensor20,1
+Sensor20,0
 Sensor21,0
 Sensor22,0
 Sensor23,0
@@ -29,7 +29,7 @@ Sensor26,0
 Sensor27,0
 Sensor28,0
 Sensor29,0
-Sensor30,1
+Sensor30,0
 Sensor31,0
 Sensor32,0
 Sensor33,0
@@ -38,7 +38,7 @@ Sensor35,0
 Sensor36,0
 Sensor37,0
 Sensor38,0
-Sensor39,1
+Sensor39,0
 Sensor40,0
 Sensor41,0
 Sensor42,0
@@ -76,7 +76,7 @@ Sensor73,0
 Sensor74,0
 Sensor75,0
 Sensor76,0
-Sensor77,1
+Sensor77,0
 Sensor78,0
 Sensor79,0
 Sensor80,0
