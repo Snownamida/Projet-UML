@@ -38,8 +38,6 @@ int main(int argc, char *argv[]) {
   }
   faltyfile.close();
 
-  // benchmarking
-
   start = chrono::high_resolution_clock::now();
 
   double indice = sensorContainer.calculateAirQuality();
@@ -56,6 +54,7 @@ int main(int argc, char *argv[]) {
   while (!quit) {
     int entry = -1;
     system("clear");
+
     cout << "[0] Quitter" << endl;
     cout << "[1] Statistiques generales" << endl;
     cout << "[2] Statistiques personnailsees" << endl;

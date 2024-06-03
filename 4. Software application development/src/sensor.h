@@ -11,11 +11,10 @@
 using namespace std;
 
 struct Quality {
-  int o3;
-  int so2;
-  int no2;
-  int pm10;
-  int distance;
+  double O3;
+  double SO2;
+  double NO2;
+  double PM10;
 };
 
 class SensorContainer;
@@ -61,6 +60,14 @@ public:
 
   bool isFalty(SensorContainer sensorContainer);
 
+  // Cette fonction permet aux utilisateurs de sélectionner un capteur, puis de
+  // noter et de classer tous les autres capteurs en fonction de leur similarité
+  // avec le capteur sélectionné. La similarité est déterminée en comparant les
+  // données générées par les capteurs au cours d'une période de temps
+  // spécifiée. Le but de cette fonctionnalité est d'identifier les zones avec
+  // une qualité de l'air similaire.
+  vector<pair<Sensor, double>> getSimilar(SensorContainer &sensorContainer);
+
 private:
   string sensorID;
   float latitude;
@@ -72,8 +79,6 @@ private:
   vector<Measurment> measurments_NO2;
   vector<Measurment> measurments_PM10;
 };
-
-
 
 class SensorContainer {
 private:

@@ -160,6 +160,51 @@ bool Sensor::isFalty(SensorContainer sensorContainer) {
   return false;
 }
 
+// Cette fonction permet aux utilisateurs de sélectionner un capteur, puis de
+// noter et de classer tous les autres capteurs en fonction de leur similarité
+// avec le capteur sélectionné. La similarité est déterminée en comparant les
+// données générées par les capteurs au cours d'une période de temps
+// spécifiée. Le but de cette fonctionnalité est d'identifier les zones avec
+// une qualité de l'air similaire.
+vector<pair<Sensor, double>>
+Sensor::getSimilar(SensorContainer &sensorContainer) {
+  vector<pair<Sensor, double>> similarSensors;
+
+  double averageO3 = average(measurments_O3);
+  double averageSO2 = average(measurments_SO2);
+  double averageNO2 = average(measurments_NO2);
+  double averagePM10 = average(measurments_PM10);
+
+  for (int i = 0; i < sensorContainer.getSensors().size(); ++i) {
+    Sensor &otherSensor = sensorContainer.getSensors()[i];
+
+    if (sensorID == otherSensor.getSensorID()) {
+      continue;
+    }
+
+    double otherAverageO3 = average(otherSensor.measurments_O3);
+    double otherAverageSO2 = average(otherSensor.measurments_SO2);
+    double otherAverageNO2 = average(otherSensor.measurments_NO2);
+    double otherAveragePM10 = average(otherSensor.measurments_PM10);
+
+    double similarityScore = 0.0;
+    similarityScore += abs(averageO3 - otherAverageO3);
+    similarityScore += abs(averageSO2 - otherAverageSO2);
+    similarityScore += abs(averageNO2 - otherAverageNO2);
+    similarityScore += abs(averagePM10 - otherAveragePM10);
+
+    similarSensors.push_back(make_pair(otherSensor, similarityScore));
+  }
+
+  // Sort sensors based on similarity score (lower is more similar)
+  sort(similarSensors.begin(), similarSensors.end(),
+       [](const pair<Sensor, double> &a, const pair<Sensor, double> &b) {
+         return a.second < b.second;
+       });
+
+  return similarSensors;
+}
+
 void SensorContainer::addSensor(Sensor &sensor) { sensors.push_back(sensor); }
 
 ostream &operator<<(ostream &os, const SensorContainer &container) {
