@@ -1,0 +1,43 @@
+@startuml
+actor Caller
+participant SensorContainer
+participant Sensor
+
+Caller -> SensorContainer: calculateAirQuality()
+activate SensorContainer
+
+loop for each sensor in sensors
+    SensorContainer -> Sensor: get latest measurement values for O3, SO2, PM10, NO2
+    activate Sensor
+    Sensor -> Sensor: calculate individual indices for O3, SO2, PM10, NO2
+    Sensor -> SensorContainer: accumulate individual indices
+    deactivate Sensor
+end
+
+SensorContainer -> SensorContainer: normalize indices
+activate SensorContainer
+SensorContainer -> SensorContainer: normalize indices across all sensors
+deactivate SensorContainer
+
+SensorContainer -> SensorContainer: convert indices to AQI
+activate SensorContainer
+SensorContainer -> SensorContainer: convert individual indices to AQI values
+deactivate SensorContainer
+
+SensorContainer -> SensorContainer: determine final AQI
+activate SensorContainer
+SensorContainer -> SensorContainer: combine AQI values from all sensors
+deactivate SensorContainer
+
+note right of SensorContainer
+    Calculation Process:
+    - O3 Index: (sum of O3 values / number of sensors) * 50 / 82
+    - SO2 Index: (sum of SO2 values / number of sensors) * 50 / 200
+    - PM10 Index: (sum of PM10 values / number of sensors) * 50 / 35
+    - NO2 Index: (sum of NO2 values / number of sensors) * 50 / 213
+end note
+
+
+SensorContainer --> Caller: AQI
+deactivate SensorContainer
+@enduml
