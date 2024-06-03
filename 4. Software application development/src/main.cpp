@@ -6,14 +6,13 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 
-  ofstream benchmark("log/benchmark.log");
+  ofstream benchmarkout("log/benchmark.log");
 
   SensorContainer sensorContainer;
 
   sensorContainer.loadFromFile("dataset/sensors.csv",
                                "dataset/measurements.csv");
 
-  // benchmarking
   auto start = chrono::high_resolution_clock::now();
 
   for (Sensor &sensor : sensorContainer.getSensors()) {
@@ -23,15 +22,14 @@ int main(int argc, char *argv[]) {
   auto stop = chrono::high_resolution_clock::now();
   auto duration = chrono::duration_cast<chrono::milliseconds>(stop - start);
 
-  benchmark
+  benchmarkout
       << "Temps total d'execution pour trouver les capteurs defaillants : "
       << duration.count() << " ms" << endl;
-  benchmark << "Nombre de capteurs : " << sensorContainer.getSensors().size()
-            << endl;
-  benchmark << "Temps moyen d'execution par capteur : "
-            << duration.count() / sensorContainer.getSensors().size() << " ms"
-            << endl;
-  benchmark.close();
+  benchmarkout << "Nombre de capteurs : " << sensorContainer.getSensors().size()
+               << endl;
+  benchmarkout << "Temps moyen d'execution par capteur : "
+               << duration.count() / sensorContainer.getSensors().size()
+               << " ms" << endl;
 
   ofstream faltyfile("dataset/falty.csv");
   faltyfile << "SensorID,Falty\n";
@@ -40,7 +38,19 @@ int main(int argc, char *argv[]) {
   }
   faltyfile.close();
 
+  // benchmarking
+
+  start = chrono::high_resolution_clock::now();
+
   double indice = sensorContainer.calculateAirQuality();
+
+  stop = chrono::high_resolution_clock::now();
+  duration = chrono::duration_cast<chrono::milliseconds>(stop - start);
+
+  benchmarkout
+      << "Temps total d'execution pour calculer l'indice de qualite de "
+         "l'air : "
+      << duration.count() << " ms" << endl;
 
   bool quit = false;
   while (!quit) {
@@ -213,5 +223,6 @@ int main(int argc, char *argv[]) {
       }
     }
   }
+  benchmarkout.close();
   return 0;
 }

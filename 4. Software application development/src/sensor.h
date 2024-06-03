@@ -10,6 +10,14 @@
 
 using namespace std;
 
+struct Quality {
+  int o3;
+  int so2;
+  int no2;
+  int pm10;
+  int distance;
+};
+
 class SensorContainer;
 
 // There are 4 measurements (one of each of the 4 types: O3, SO2, NO2, PM10) per
@@ -65,13 +73,7 @@ private:
   vector<Measurment> measurments_PM10;
 };
 
-struct Quality {
-  int o3;
-  int so2;
-  int no2;
-  int pm10;
-  int distance;
-};
+
 
 class SensorContainer {
 private:
