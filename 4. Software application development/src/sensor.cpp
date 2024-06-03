@@ -1,4 +1,5 @@
 #include "sensor.h"
+#include <algorithm>
 #include <iostream>
 #include <map>
 #include <string>
@@ -196,7 +197,7 @@ Sensor::getSimilar(SensorContainer &sensorContainer) {
     similarSensors.push_back(make_pair(otherSensor, similarityScore));
   }
 
-  // Sort sensors based on similarity score (lower is more similar)
+  // Sort similarSensors based on similarity score (lower is more similar)
   sort(similarSensors.begin(), similarSensors.end(),
        [](const pair<Sensor, double> &a, const pair<Sensor, double> &b) {
          return a.second < b.second;
