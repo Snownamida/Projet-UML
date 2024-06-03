@@ -229,7 +229,7 @@ int main(int argc, char *argv[]) {
             similarSensors = sensorContainer.getSensors()[entry].getSimilar(sensorContainer);
             for(int i = 9; i > -1; i--)
             {
-              cout << "Place n°" << i << " : " << "\033[0;31m" /*red*/ << similarSensors[i].first.getSensorID() << "\033[0m" /*default*/ << endl;
+              cout << "Place n°" << i + 1 << " : " << "\033[0;31m" /*red*/ << similarSensors[i].first.getSensorID() << "\033[0m" /*default*/ << endl;
             }
           }      
           cout << "\r\n[0] Retour au Menu principal" << endl;
