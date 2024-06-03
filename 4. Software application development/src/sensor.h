@@ -78,7 +78,8 @@ private:
   vector<Sensor> sensors;
 
 public:
-  void init();
+  void loadFromFile(const string &sensorFilePath,
+                    const string &measurmentFilePath);
 
   void addSensor(Sensor &sensor);
 

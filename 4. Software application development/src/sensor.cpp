@@ -1,6 +1,7 @@
 #include "sensor.h"
 #include <iostream>
 #include <map>
+#include <string>
 #include <vector>
 
 string types[] = {"03", "SO2", "NO2", "PM10"};
@@ -185,9 +186,10 @@ Sensor &SensorContainer::findSensorById(string sensorID) {
   throw "Sensor not found";
 }
 
-void SensorContainer::init() {
+void SensorContainer::loadFromFile(const string &sensorFilePath,
+                                   const string &measurmentFilePath) {
   // Initialisation des capteurs
-  ifstream sensorFile("dataset/sensors.csv");
+  ifstream sensorFile(sensorFilePath);
 
   if (!sensorFile.is_open()) {
     throw runtime_error("Erreur: impossible de lire le fichier sensors.csv");
@@ -220,7 +222,7 @@ void SensorContainer::init() {
   sensorFile.close();
 
   // Initialisation des mesures des capteurs
-  ifstream measurmentFile("dataset/measurements.csv");
+  ifstream measurmentFile(measurmentFilePath);
 
   if (!measurmentFile.is_open()) {
     throw runtime_error(

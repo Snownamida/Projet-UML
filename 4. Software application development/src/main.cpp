@@ -4,11 +4,12 @@
 
 using namespace std;
 
-int main() {
+int main(int argc, char *argv[]) {
 
   SensorContainer sensorContainer;
 
-  sensorContainer.init();
+  sensorContainer.loadFromFile("dataset/sensors.csv",
+                               "dataset/measurements.csv");
 
   for (Sensor &sensor : sensorContainer.getSensors()) {
     sensor.setFalty(sensor.isFalty(sensorContainer));
