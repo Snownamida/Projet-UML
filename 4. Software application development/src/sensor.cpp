@@ -124,7 +124,7 @@ bool Sensor::isFalty(SensorContainer sensorContainer) {
 
   for (int i = 0; i < sensorContainer.getSensors().size(); i++) {
     if (distanceTo(sensorContainer[i]) < RAYON &&
-        sensorID != sensorContainer.getSensors()[i].sensorID) {
+        sensorID != sensorContainer[i].sensorID) {
       sum_neighbour_O3 += sum(sensorContainer[i][O3]);
       count_neighbour_O3 += sensorContainer[i][O3].size();
       sum_neighbour_SO2 += sum(sensorContainer[i][SO2]);
@@ -177,7 +177,7 @@ ostream &operator<<(ostream &os, const SensorContainer &container) {
   return os;
 }
 
-Sensor &SensorContainer::findSensorById(string sensorID) {
+Sensor &SensorContainer::findSensorById(const string &sensorID) {
   for (int i = 0; i < sensors.size(); i++) {
     if (sensors[i].getSensorID() == sensorID) {
       return sensors[i];

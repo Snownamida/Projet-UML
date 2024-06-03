@@ -85,9 +85,9 @@ public:
 
   friend ostream &operator<<(ostream &os, const SensorContainer &container);
 
-  Sensor &findSensorById(string sensorID);
+  Sensor &findSensorById(const string &sensorID);
 
-  vector<Sensor> getSensors() const { return sensors; }
+  vector<Sensor> &getSensors() { return sensors; }
 
   Sensor &operator[](int i) { return sensors[i]; }
 
