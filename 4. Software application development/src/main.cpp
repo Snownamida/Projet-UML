@@ -200,11 +200,11 @@ int main(int argc, char *argv[]) {
           }
           cout << endl;
 
-          cout << "[X] Voir les informations du capteur n°X" << endl;
+          // cout << "[X] Voir les informations du capteur n°X" << endl;
           cout << "[0] Retour au Menu principal" << endl;
           cout << "Entrer la selection :" << endl;
           cin >> entry;
-          cout << endl;
+          cout << endl;          
         }
         break;
       }
