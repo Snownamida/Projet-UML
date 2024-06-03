@@ -1,0 +1,47 @@
+@startuml
+actor Caller
+participant SensorContainer
+participant Sensor
+participant "average" as Average
+
+Caller -> Sensor: getSimilar(SensorContainer)
+activate Sensor
+
+Sensor -> Average: average(measurments_O3)
+activate Average
+Average --> Sensor: averageO3
+deactivate Average
+
+Sensor -> Average: average(measurments_SO2)
+activate Average
+Average --> Sensor: averageSO2
+deactivate Average
+
+Sensor -> Average: average(measurments_NO2)
+activate Average
+Average --> Sensor: averageNO2
+deactivate Average
+
+Sensor -> Average: average(measurments_PM10)
+activate Average
+Average --> Sensor: averagePM10
+deactivate Average
+
+Sensor -> SensorContainer: getSensors()
+activate SensorContainer
+SensorContainer --> Sensor: a list of all sensors
+deactivate SensorContainer
+
+loop for each sensor in the list of all sensors
+    Sensor -> Sensor: calculate similarity score
+    activate Sensor
+    Sensor -> Sensor: calculate otherSensor's averages
+    Sensor -> Sensor: calculate difference in averages
+    Sensor -> Sensor: accumulate difference in averages to similarity score
+    deactivate Sensor
+end
+
+Sensor -> Sensor: sort similarSensors based on similarity score
+Sensor --> Caller: similarSensors
+deactivate Sensor
+@enduml
