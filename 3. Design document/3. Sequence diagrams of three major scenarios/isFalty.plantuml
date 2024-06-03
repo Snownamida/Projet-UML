@@ -1,0 +1,112 @@
+@startuml
+actor Caller
+participant SensorContainer
+participant Sensor
+participant Sum
+participant Average
+
+Caller - Sensor isFalty(SensorContainer)
+activate Sensor
+
+Sensor - Average average(measurments_O3)
+activate Average
+Average - Sum sum(measurments_O3)
+activate Sum
+Sum -- Average the sum of O3 measurements
+deactivate Sum
+Average -- Sensor the average of O3 measurements
+deactivate Average
+
+Sensor - Average average(measurments_SO2)
+activate Average
+Average - Sum sum(measurments_SO2)
+activate Sum
+Sum -- Average the sum of SO2 measurements
+deactivate Sum
+Average -- Sensor the average of SO2 measurements
+deactivate Average
+
+Sensor - Average average(measurments_NO2)
+activate Average
+Average - Sum sum(measurments_NO2)
+activate Sum
+Sum -- Average the sum of NO2 measurements
+deactivate Sum
+Average -- Sensor the average of NO2 measurements
+deactivate Average
+
+Sensor - Average average(measurments_PM10)
+activate Average
+Average - Sum sum(measurments_PM10)
+activate Sum
+Sum -- Average the sum of PM10 measurements
+deactivate Sum
+Average -- Sensor the average of PM10 measurements
+deactivate Average
+
+alt if distance  RAYON and sensorID != otherSensorID
+    Sensor - Sum sum(otherSensor[O3])
+    activate Sum
+    Sum -- Sensor the sum of O3 measurements of the neighbor sensor
+    deactivate Sum
+
+    Sensor - Sum sum(otherSensor[SO2])
+    activate Sum
+    Sum -- Sensor the sum of SO2 measurements of the neighbor sensor
+    deactivate Sum
+
+    Sensor - Sum sum(otherSensor[NO2])
+    activate Sum
+    Sum -- Sensor the sum of NO2 measurements of the neighbor sensor
+    deactivate Sum
+
+    Sensor - Sum sum(otherSensor[PM10])
+    activate Sum
+    Sum -- Sensor the sum of PM10 measurements of the neighbor sensor
+    deactivate Sum
+end
+
+Sensor - SensorContainer getSensors()
+activate SensorContainer
+SensorContainer -- Sensor the list of all sensors
+deactivate SensorContainer
+
+loop for each sensor in the list of all sensors
+    Sensor - Sensor DistanceTo(sensor)
+    activate Sensor
+    deactivate Sensor
+    alt if distance  RAYON and sensorID != otherSensorID
+        Sensor - Sum sum(otherSensor[O3])
+        activate Sum
+        Sum -- Sensor the sum of O3 measurements of the neighbor sensor
+        deactivate Sum
+
+        Sensor - Sum sum(otherSensor[SO2])
+        activate Sum
+        Sum -- Sensor the sum of SO2 measurements of the neighbor sensor
+        deactivate Sum
+
+        Sensor - Sum sum(otherSensor[NO2])
+        activate Sum
+        Sum -- Sensor the sum of NO2 measurements of the neighbor sensor
+        deactivate Sum
+
+        Sensor - Sum sum(otherSensor[PM10])
+        activate Sum
+        Sum -- Sensor the sum of PM10 measurements of the neighbor sensor
+        deactivate Sum
+    end
+end
+
+Sensor - Sensor calculate average_neighbour values
+Sensor - Sensor compare averages with thresholds
+
+alt if any average out of range
+    Sensor - Sensor print fault details
+    Sensor -- Caller true (sensor is faulty)
+else
+    Sensor -- Caller false (sensor is not faulty)
+end
+
+deactivate Sensor
+@enduml
