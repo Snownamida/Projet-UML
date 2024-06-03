@@ -4,29 +4,57 @@
 
 using namespace std;
 
-int main() {
+int main(int argc, char *argv[]) {
+
+  ofstream benchmarkout("log/benchmark.log");
 
   SensorContainer sensorContainer;
 
-  sensorContainer.init();
+  sensorContainer.loadFromFile("dataset/sensors.csv",
+                               "dataset/measurements.csv");
+
+  auto start = chrono::high_resolution_clock::now();
 
   for (Sensor &sensor : sensorContainer.getSensors()) {
     sensor.setFalty(sensor.isFalty(sensorContainer));
   }
 
+  auto stop = chrono::high_resolution_clock::now();
+  auto duration = chrono::duration_cast<chrono::milliseconds>(stop - start);
+
+  benchmarkout
+      << "Temps total d'execution pour trouver les capteurs defaillants : "
+      << duration.count() << " ms" << endl;
+  benchmarkout << "Nombre de capteurs : " << sensorContainer.getSensors().size()
+               << endl;
+  benchmarkout << "Temps moyen d'execution par capteur : "
+               << duration.count() / sensorContainer.getSensors().size()
+               << " ms" << endl;
+
   ofstream faltyfile("dataset/falty.csv");
   faltyfile << "SensorID,Falty\n";
   for (Sensor &sensor : sensorContainer.getSensors()) {
-    faltyfile << sensor.getSensorID() << "," << sensor.getFalty() << "\n";
+    faltyfile << sensor.getSensorID() << "," << sensor.getFalty() << endl;
   }
   faltyfile.close();
 
-  double indice = sensorContainer.calculateAirQuality(sensorContainer);
+  start = chrono::high_resolution_clock::now();
+
+  double indice = sensorContainer.calculateAirQuality();
+
+  stop = chrono::high_resolution_clock::now();
+  duration = chrono::duration_cast<chrono::milliseconds>(stop - start);
+
+  benchmarkout
+      << "Temps total d'execution pour calculer l'indice de qualite de "
+         "l'air : "
+      << duration.count() << " ms" << endl;
 
   bool quit = false;
   while (!quit) {
     int entry = -1;
     system("clear");
+
     cout << "[0] Quitter" << endl;
     cout << "[1] Statistiques generales" << endl;
     cout << "[2] Statistiques personnailsees" << endl;
@@ -165,7 +193,9 @@ int main() {
               cout << "Sensor ID: " << sensorContainer[i].getSensorID();
               cout << "\033[0m" /*default*/ << endl;
               cout << "Latitude: " << sensorContainer[i].getLatitude() << endl;
-              cout << "Longitude: " << sensorContainer[i].getLongitude() << "\r\n" << endl;
+              cout << "Longitude: " << sensorContainer[i].getLongitude()
+                   << "\r\n"
+                   << endl;
             }
           }
           cout << endl;
@@ -192,5 +222,6 @@ int main() {
       }
     }
   }
+  benchmarkout.close();
   return 0;
 }

@@ -10,6 +10,13 @@
 
 using namespace std;
 
+struct Quality {
+  double O3;
+  double SO2;
+  double NO2;
+  double PM10;
+};
+
 class SensorContainer;
 
 // There are 4 measurements (one of each of the 4 types: O3, SO2, NO2, PM10) per
@@ -33,16 +40,16 @@ public:
   vector<Measurment> getMeasurmentsNO2() { return measurments_NO2; }
   vector<Measurment> getMeasurmentsPM10() { return measurments_PM10; }
 
-  std::vector<Measurment>& operator[](MeasureType type) {
+  std::vector<Measurment> &operator[](MeasureType type) {
     switch (type) {
-      case O3:
-        return measurments_O3;
-      case SO2:
-        return measurments_SO2;
-      case PM10:
-        return measurments_PM10;
-      case NO2:
-        return measurments_NO2;
+    case O3:
+      return measurments_O3;
+    case SO2:
+      return measurments_SO2;
+    case PM10:
+      return measurments_PM10;
+    case NO2:
+      return measurments_NO2;
     }
   }
 
@@ -52,6 +59,14 @@ public:
   void setFalty(bool falty) { this->falty = falty; }
 
   bool isFalty(SensorContainer sensorContainer);
+
+  // Cette fonction permet aux utilisateurs de sélectionner un capteur, puis de
+  // noter et de classer tous les autres capteurs en fonction de leur similarité
+  // avec le capteur sélectionné. La similarité est déterminée en comparant les
+  // données générées par les capteurs au cours d'une période de temps
+  // spécifiée. Le but de cette fonctionnalité est d'identifier les zones avec
+  // une qualité de l'air similaire.
+  vector<pair<Sensor, double>> getSimilar(SensorContainer &sensorContainer);
 
 private:
   string sensorID;
@@ -65,32 +80,25 @@ private:
   vector<Measurment> measurments_PM10;
 };
 
-struct Quality {
-  int o3;
-  int so2;
-  int no2;
-  int pm10;
-  int distance;
-};
-
 class SensorContainer {
 private:
   vector<Sensor> sensors;
 
 public:
-  void init();
+  void loadFromFile(const string &sensorFilePath,
+                    const string &measurmentFilePath);
 
   void addSensor(Sensor &sensor);
 
   friend ostream &operator<<(ostream &os, const SensorContainer &container);
 
-  Sensor &findSensorById(string sensorID);
+  Sensor &findSensorById(const string &sensorID);
 
-  vector<Sensor> getSensors() const { return sensors; }
+  vector<Sensor> &getSensors() { return sensors; }
 
   Sensor &operator[](int i) { return sensors[i]; }
 
-  double calculateAirQuality(SensorContainer &sensorContainer);
+  double calculateAirQuality();
 };
 
 #endif

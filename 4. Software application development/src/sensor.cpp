@@ -1,6 +1,7 @@
 #include "sensor.h"
 #include <iostream>
 #include <map>
+#include <string>
 #include <vector>
 
 string types[] = {"03", "SO2", "NO2", "PM10"};
@@ -123,7 +124,7 @@ bool Sensor::isFalty(SensorContainer sensorContainer) {
 
   for (int i = 0; i < sensorContainer.getSensors().size(); i++) {
     if (distanceTo(sensorContainer[i]) < RAYON &&
-        sensorID != sensorContainer.getSensors()[i].sensorID) {
+        sensorID != sensorContainer[i].sensorID) {
       sum_neighbour_O3 += sum(sensorContainer[i][O3]);
       count_neighbour_O3 += sensorContainer[i][O3].size();
       sum_neighbour_SO2 += sum(sensorContainer[i][SO2]);
@@ -159,6 +160,51 @@ bool Sensor::isFalty(SensorContainer sensorContainer) {
   return false;
 }
 
+// Cette fonction permet aux utilisateurs de sélectionner un capteur, puis de
+// noter et de classer tous les autres capteurs en fonction de leur similarité
+// avec le capteur sélectionné. La similarité est déterminée en comparant les
+// données générées par les capteurs au cours d'une période de temps
+// spécifiée. Le but de cette fonctionnalité est d'identifier les zones avec
+// une qualité de l'air similaire.
+vector<pair<Sensor, double>>
+Sensor::getSimilar(SensorContainer &sensorContainer) {
+  vector<pair<Sensor, double>> similarSensors;
+
+  double averageO3 = average(measurments_O3);
+  double averageSO2 = average(measurments_SO2);
+  double averageNO2 = average(measurments_NO2);
+  double averagePM10 = average(measurments_PM10);
+
+  for (int i = 0; i < sensorContainer.getSensors().size(); ++i) {
+    Sensor &otherSensor = sensorContainer.getSensors()[i];
+
+    if (sensorID == otherSensor.getSensorID()) {
+      continue;
+    }
+
+    double otherAverageO3 = average(otherSensor.measurments_O3);
+    double otherAverageSO2 = average(otherSensor.measurments_SO2);
+    double otherAverageNO2 = average(otherSensor.measurments_NO2);
+    double otherAveragePM10 = average(otherSensor.measurments_PM10);
+
+    double similarityScore = 0.0;
+    similarityScore += abs(averageO3 - otherAverageO3);
+    similarityScore += abs(averageSO2 - otherAverageSO2);
+    similarityScore += abs(averageNO2 - otherAverageNO2);
+    similarityScore += abs(averagePM10 - otherAveragePM10);
+
+    similarSensors.push_back(make_pair(otherSensor, similarityScore));
+  }
+
+  // Sort sensors based on similarity score (lower is more similar)
+  sort(similarSensors.begin(), similarSensors.end(),
+       [](const pair<Sensor, double> &a, const pair<Sensor, double> &b) {
+         return a.second < b.second;
+       });
+
+  return similarSensors;
+}
+
 void SensorContainer::addSensor(Sensor &sensor) { sensors.push_back(sensor); }
 
 ostream &operator<<(ostream &os, const SensorContainer &container) {
@@ -176,7 +222,7 @@ ostream &operator<<(ostream &os, const SensorContainer &container) {
   return os;
 }
 
-Sensor &SensorContainer::findSensorById(string sensorID) {
+Sensor &SensorContainer::findSensorById(const string &sensorID) {
   for (int i = 0; i < sensors.size(); i++) {
     if (sensors[i].getSensorID() == sensorID) {
       return sensors[i];
@@ -185,9 +231,10 @@ Sensor &SensorContainer::findSensorById(string sensorID) {
   throw "Sensor not found";
 }
 
-void SensorContainer::init() {
+void SensorContainer::loadFromFile(const string &sensorFilePath,
+                                   const string &measurmentFilePath) {
   // Initialisation des capteurs
-  ifstream sensorFile("dataset/sensors.csv");
+  ifstream sensorFile(sensorFilePath);
 
   if (!sensorFile.is_open()) {
     throw runtime_error("Erreur: impossible de lire le fichier sensors.csv");
@@ -220,7 +267,7 @@ void SensorContainer::init() {
   sensorFile.close();
 
   // Initialisation des mesures des capteurs
-  ifstream measurmentFile("dataset/measurements.csv");
+  ifstream measurmentFile(measurmentFilePath);
 
   if (!measurmentFile.is_open()) {
     throw runtime_error(
@@ -266,7 +313,7 @@ void SensorContainer::init() {
   measurmentFile.close();
 }
 
-double SensorContainer::calculateAirQuality(SensorContainer &sensorContainer){
+double SensorContainer::calculateAirQuality() {
   double indiceO3 = 0.0;
   double indiceSO2 = 0.0;
   double indicePM10 = 0.0;
@@ -277,17 +324,17 @@ double SensorContainer::calculateAirQuality(SensorContainer &sensorContainer){
   double counterPM10 = 0.0;
   double counterNO2 = 0.0;
 
-  for (int i = 0; i < sensorContainer.getSensors().size(); i++) {
-    indiceO3 += sensorContainer.getSensors()[i].getMeasurmentsO3()[sensorContainer.getSensors()[i].getMeasurmentsO3().size() - 1].getValue();
+  for (int i = 0; i < sensors.size(); i++) {
+    indiceO3 += sensors[i][O3][sensors[i][O3].size() - 1].getValue();
     counterO3++;
-    
-    indiceSO2 += sensorContainer.getSensors()[i].getMeasurmentsSO2()[sensorContainer.getSensors()[i].getMeasurmentsSO2().size() - 1].getValue();
+
+    indiceSO2 += sensors[i][SO2][sensors[i][SO2].size() - 1].getValue();
     counterSO2++;
-  
-    indicePM10 += sensorContainer.getSensors()[i].getMeasurmentsPM10()[sensorContainer.getSensors()[i].getMeasurmentsPM10().size() - 1].getValue();
+
+    indicePM10 += sensors[i][PM10][sensors[i][PM10].size() - 1].getValue();
     counterPM10++;
-  
-    indiceNO2 += sensorContainer.getSensors()[i].getMeasurmentsNO2()[sensorContainer.getSensors()[i].getMeasurmentsNO2().size() - 1].getValue();
+
+    indiceNO2 += sensors[i][NO2][sensors[i][NO2].size() - 1].getValue();
     counterNO2++;
   }
 
