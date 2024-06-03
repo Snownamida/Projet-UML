@@ -11,4 +11,4 @@ output/measurment.o : src/measurment.cpp
 	c++ -o output/measurment.o -c src/measurment.cpp
 
 clean:
-	rm main *.o
+	rm main output/*.o
